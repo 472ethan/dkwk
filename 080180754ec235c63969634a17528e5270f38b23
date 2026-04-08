@@ -6,3 +6,9 @@ Reading through the docs, it would appear that
 NCSA HTTPd assumes "public_html" as the default:
 
 https://web.archive.org/web/20011110092946/http://hoohoo.ncsa.uiuc.edu/docs/setup/srm/UserDir.html
+
+while Apache does not enable it by default
+
+https://httpd.apache.org/docs/2.4/howto/public_html.html
+
+(at least as of now... not sure how it was back then.)
