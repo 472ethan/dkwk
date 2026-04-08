@@ -1,0 +1,8 @@
+Although I might add -- Claude says that it had
+started with NCSA HTTPd (1993), precursor to the
+Apache HTTP server from UIUC.
+
+Reading through the docs, it would appear that
+NCSA HTTPd assumes "public_html" as the default:
+
+https://web.archive.org/web/20011110092946/http://hoohoo.ncsa.uiuc.edu/docs/setup/srm/UserDir.html
