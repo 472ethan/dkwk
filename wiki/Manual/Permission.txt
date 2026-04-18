@@ -22,5 +22,5 @@ File targets do not end with a `/'.
 Targets may contain wildcards, but _only_ if they occupy
 an entire path segment.  A single asterisk matches one
 path segment, while two asterisks matches zero or more path
-segments.  Three asterisks and I will hurl an angel fruit
+segments.  Three asterisks and I will hurl an angel food
 cake in your face at the speed of 2763 meters per hour.
