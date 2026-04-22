@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+"""Configuration variables.  Follows the GNU Makefile Conventions."""
+
+__all__ = [
+    'SYSCONFDIR',     # Usually /usr/local/etc
+    'LOCALSTATEDIR'   # Usually /var/db (FreeBSD) or /var/lib (Linux)
+]
+
+SYSCONFDIR = "@SYSCONFDIR@"
+LOCALSTATEDIR = "@LOCALSTATEDIR@"

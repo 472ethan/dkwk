@@ -27,9 +27,6 @@ class Application:
             description = self.description,
             version     = self.version,
         )
-        #router = self.routes()
-        #app.include_router(routes)
+        router = fastapi.APIRouter()
+        app.include_router(routes)
         return app
-
-    def routes(self):
-        pass
