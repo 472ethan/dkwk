@@ -1,0 +1,22 @@
+DK-Wiki is a personal Wiki, in honor of Wiki Wiki Web (the
+world's first public wiki) and Wikipedia (the world's largest
+free online wiki).  While "wiki" itself is the Hawaiian word
+for "quick", a Wiki refers to any Web site whose content can
+be edited by any person.  (A living Web site, in a sense.)
+
+Content of DK-Wiki is governed by text, written in MediaWiki
+markup which is capable of representing hypertext markup.
+The GitHub Git repository itself will be production database;
+read operation (GET) is implemented by a simple proxy through
+raw.githubusercontent.com, while write operations (POST/DELETE)
+are implemented by Git cache manipulation.  I may skip
+implementing write operations if time does not permit.
+
+At minimum, Bootstrap CSS and Prism.js will be used for the
+Web interface.  The backend server responsible for executing
+code on behalf of the untrusted user input will be on the
+Google Cloud Compute Engine I created for CS400 running
+FreeBSD 14.2-STABLE, while the code itself will be made
+available in the Git repository.  The backend will likely be
+written in FastAPI/Flask, whichever I find easier to use for
+building a REST API.
