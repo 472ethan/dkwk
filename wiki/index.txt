@@ -1,3 +1,5 @@
+= DK-Wiki
+
 DK-Wiki is a personal Wiki, in honor of Wiki Wiki Web (the
 world's first public wiki) and Wikipedia (the world's largest
 free online wiki).  While "wiki" itself is the Hawaiian word
