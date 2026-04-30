@@ -68,5 +68,6 @@ def git_commit(repo, name, tree, *, time=None, message=''):
             raise ValueError(f"{name} has changed: {newoid}, was unborn")
         # Setting identity is (very much) hopeless here; at least, not
         # in a way that isn't destructive.  We don't have a way to fix
-        # this and this is an upstream bug.
+        # this and this is an upstream bug.  I opened a pull request to
+        # fix this: <https://github.com/libgit2/pygit2/pull/1461>
         repo.create_reference(name, oid)
