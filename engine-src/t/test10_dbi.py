@@ -51,3 +51,18 @@ class TestDbi_Tree(TestDbi_Repo):
         self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
         with self.assertRaises(KeyError):
             wiki.read('marketing.txt')
+
+    def test_savepath(self):
+        rebo = pygit2.init_repository(self.ROOT,
+            initial_head='refs/heads/master', bare=True)
+        index = pygit2.Index()
+        blob = rebo.create_blob(b'= welcome! =\n')
+        index.add(pygit2.IndexEntry('wiki/index.txt', blob, pygit2.GIT_FILEMODE_BLOB))
+        tree = index.write_tree(rebo)
+        HEAD = git_commit(rebo, 'refs/heads/master', tree)
+        repo = dbi.Repository(self.ROOT, 'master')
+        wiki = repo.wiki()
+        wiki.write('guide.txt', b'= guide =\n')
+        wiki.save()
+        self.assertEqual(wiki.read('guide.txt'), b'= guide =\n')
+        self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
