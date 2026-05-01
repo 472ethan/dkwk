@@ -5,6 +5,7 @@ import tempfile
 import pygit2
 
 import dkwk.dbi as dbi
+from minigit import *
 
 
 class TestDbi_Repo(unittest.TestCase):
@@ -25,3 +26,14 @@ class TestDbi_Tree(TestDbi_Repo):
     def test_emptyrepo(self):
         repo = dbi.Repository(self.ROOT, 'main')
         self.assertIs(repo.head, None)
+
+    def test_somerepo(self):
+        rebo = pygit2.init_repository(self.ROOT,
+            initial_head='refs/heads/master', bare=True)
+        index = pygit2.Index()
+        blob = rebo.create_blob(b'= welcome! =\n')
+        index.add(pygit2.IndexEntry('wiki/index.txt', blob, pygit2.GIT_FILEMODE_BLOB))
+        tree = index.write_tree(rebo)
+        HEAD = git_commit(rebo, 'refs/heads/master', tree)
+        repo = dbi.Repository(self.ROOT, 'master')
+        self.assertEqual(repo.head.id, HEAD)
