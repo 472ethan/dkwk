@@ -126,10 +126,9 @@ author {author}
 committer {committer}
 
 {message}\
-"""
-    .format(
+""".format(
         tree      = tree,
-        parent    = "\n".join(f"parent {p}" for p in parents or ())
+        parent    = "\n".join(f"parent {p}" for p in parents or ()),
         author    = author,
         committer = committer,
         message   = message,
