@@ -3,6 +3,8 @@
 import os
 import pygit2
 
+from . import git as git
+
 
 __all__ = [
     'Repository',
@@ -37,7 +39,7 @@ class MovedError(RuntimeError):
 class Repository:
     """Connection to Git object database."""
 
-    __slots__ = ('repo', 'name', 'head')
+    __slots__ = ('repo', 'name', 'head', 'txn')
 
     def __init__(self, path, branch):
         self.repo = pygit2.Repository(path)
@@ -47,15 +49,90 @@ class Repository:
             self.head = self.repo.revparse_single(f"refs/heads/{branch}")
         except KeyError:
             self.head = None
+        # Instead of keeping a whole index, we keep just
+        # the list of subtrees we changed.  In our case,
+        # it'd be the "wiki" subtree.
+        #
+        # ("txn" short for transactions.)
+        self.txn = {}
 
     def join(self, subtree):
-        subtree.save()
+        tree = subtree.save()
+        # TreeBuilder can only make use of the oid itself.
+        self.txn[subtree.path] = tree.id
 
     def wiki(self):
         return WikiTree(self.repo, self.head)
 
+    # The committer field is provided for unit testing.
+    def commit(self, author, message, committer=None):
+        if not self.txn:
+            return self.head.id
+        if self.head:
+            parents = [self.head.id]
+            oldtree = self.head.peel(pygit2.Tree)
+            index = self.repo.TreeBuilder(oldtree)
+        else:
+            parents = []
+            index = self.repo.TreeBuilder()
+        for path, node in self.txn.items():
+            index.insert(path, node, pygit2.GIT_FILEMODE_TREE)
+        tree = index.write()
+        oid = git_commit(self.repo, f"refs/heads/{self.name}",
+            tree, parents, author, committer, message)
+        self.head = self.repo[oid]
+        return oid
+
     def __repr__(self):
         return f"<{type(self).__qualname__} at {self.head}>"
+
+
+def git_commit(repo, name, *args, **kwds):
+    """
+    git.commit technically only creates the commit.
+    This does the harder part of "locking" the refs
+    and updating them.
+
+    This is stolen from minigit.py.
+    """
+    myname = f"{__name__} git_commit"
+    oid = git.commit(repo, *args, **kwds)
+    # Round-trip the commit; we pray for the best?
+    message = repo[oid].message
+
+    try:
+        oldoid = repo.lookup_reference(name).resolve().target
+    except KeyError:
+        oldoid = None
+
+    # For good interpolation: prepend the colon only
+    # if a commit message was given.
+    try:
+        (line,) = message.splitlines()
+    except ValueError:
+        subj = ""
+    else:
+        subj = f": {line}"
+
+    # Unlike minigit.py, I am not concerned about reproducibility;
+    # just log with whatever identity it likes. :)
+
+    if oldoid:
+        ref = repo.lookup_reference(name)
+        newoid = ref.resolve().target
+        if newoid != oldoid:
+            raise ValueError(f"{name} has changed: into {newoid}, was {oldoid}")
+        ref.set_target(oid, message=f"{myname} (initial){subj}")
+        return oid
+    else:
+        try:
+            newoid = repo.lookup_reference(name).resolve().target
+        except KeyError:
+            pass
+        else:
+            raise ValueError(f"{name} has changed: into {newoid}, was unborn")
+        repo.create_reference(name, oid)
+        return oid
 
 
 class Tree:

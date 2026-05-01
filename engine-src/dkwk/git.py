@@ -120,6 +120,14 @@ def commit(repo, tree, parents=None, author=None, committer=None, message=''):
     # I just can't stand commits without EOL... sorry lol. :P
     if message and message[-1] != "\n":
         message += "\n"
+    if author is None or committer is None:
+        # default_signature is a descriptor/property!  No ().
+        ident = repo.default_signature
+        ident_wire = f"{ident.name} <{ident.email}> {sig.time} {rfc2822_formatzone(sig.offset)}"
+        if author is None:
+            author = ident_wire
+        if committer is None:
+            committer = ident_wire
     text_payload = """\
 tree {tree}
 {parent}\

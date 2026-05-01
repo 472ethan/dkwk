@@ -68,3 +68,35 @@ class TestDbi_Tree(TestDbi_Repo):
         wiki.save()
         self.assertEqual(wiki.read('guide/index.txt'), b'= Guide to the Galaxy =\n')
         self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
+
+    def test_committree(self):
+        rebo = pygit2.init_repository(self.ROOT,
+            initial_head='refs/heads/master', bare=True)
+        index = pygit2.Index()
+        blob = rebo.create_blob(b'= welcome! =\n')
+        index.add(pygit2.IndexEntry('wiki/index.txt', blob, pygit2.GIT_FILEMODE_BLOB))
+        tree = index.write_tree(rebo)
+        HEAD = git_commit(rebo, 'refs/heads/master', tree)
+        repo = dbi.Repository(self.ROOT, 'master')
+        wiki = repo.wiki()
+        wiki.write('guide.txt', b'= guide =\n')
+        wiki.save()
+        repo.join(wiki)
+        repo.commit(
+            # In practice, the committer is left to None,
+            # so the daemon identity as well as system clock
+            # can be used.
+            author='127.0.0.1 <www-data@engine.cs472.endfind.me> 1777661692 -0000',
+            committer='HTTP Daemon <www-data@engine.cs472.endfind.me> 1777661692 -0000',
+            message="POST /api/post?f=guide/index.txt\n",
+        )
+        self.assertEqual(rebo.revparse_single('refs/heads/master'), repo.head)
+        self.assertEqual(repo.head.author.name, '127.0.0.1')
+        self.assertEqual(repo.head.author.email, 'www-data@engine.cs472.endfind.me')
+        self.assertEqual(repo.head.author.time, 1777661692)
+        self.assertEqual(repo.head.author.offset, 0)
+        self.assertEqual(repo.head.committer.name, 'HTTP Daemon')
+        self.assertEqual(repo.head.committer.email, 'www-data@engine.cs472.endfind.me')
+        self.assertEqual(repo.head.committer.time, 1777661692)
+        self.assertEqual(repo.head.committer.offset, 0)
+        self.assertEqual(repo.head.message, "POST /api/post?f=guide/index.txt\n")
