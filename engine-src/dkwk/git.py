@@ -135,6 +135,4 @@ committer {committer}
         message   = message,
     )
     payload = text_payload.encode('UTF-8')
-    import pprint
-    pprint.pprint(payload)
     return repo.odb.write(pygit2.GIT_OBJECT_COMMIT, payload)
