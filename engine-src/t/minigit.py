@@ -5,11 +5,11 @@ import dkwk as dinky
 from dkwk.git import *  # (mkgitid)
 
 __all__ = [
-    'git_commit_tree',
+    'git_commit',
 ]
 
 IDENT_NAME = __name__
-IDENT_EMAIL = ''
+IDENT_EMAIL = 'devnull@localhost.invalid'
 
 
 def git_commit(repo, name, tree, *, time=None, message=''):
