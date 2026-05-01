@@ -37,3 +37,17 @@ class TestDbi_Tree(TestDbi_Repo):
         HEAD = git_commit(rebo, 'refs/heads/master', tree)
         repo = dbi.Repository(self.ROOT, 'master')
         self.assertEqual(repo.head.id, HEAD)
+
+    def test_readpath(self):
+        rebo = pygit2.init_repository(self.ROOT,
+            initial_head='refs/heads/master', bare=True)
+        index = pygit2.Index()
+        blob = rebo.create_blob(b'= welcome! =\n')
+        index.add(pygit2.IndexEntry('wiki/index.txt', blob, pygit2.GIT_FILEMODE_BLOB))
+        tree = index.write_tree(rebo)
+        HEAD = git_commit(rebo, 'refs/heads/master', tree)
+        repo = dbi.Repository(self.ROOT, 'master')
+        wiki = repo.wiki()
+        self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
+        with self.assertRaises(KeyError):
+            wiki.read('marketing.txt')

@@ -51,6 +51,9 @@ class Repository:
     def join(self, subtree):
         subtree.save()
 
+    def wiki(self):
+        return WikiTree(self.repo, self.head)
+
     def __repr__(self):
         return f"<{type(self).__qualname__} at {self.head}>"
 
