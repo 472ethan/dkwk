@@ -100,3 +100,5 @@ class TestDbi_Tree(TestDbi_Repo):
         self.assertEqual(repo.head.committer.time, 1777661692)
         self.assertEqual(repo.head.committer.offset, 0)
         self.assertEqual(repo.head.message, "POST /api/post?f=guide/index.txt\n")
+
+    # TODO: Test if this preserves other subtrees (e.g. this very source code)
