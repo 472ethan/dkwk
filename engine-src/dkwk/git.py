@@ -92,10 +92,10 @@ def mkgitid(name, mail, time=None):
 
 def rfc2822_timezone(off):
     """
-    Format +{mmss} for Eastern regions with positive GMT offsets
-    or -{mmss} for Western regions with negative GMT offsets.
+    Format +{hhmm} for Eastern regions with positive GMT offsets
+    or -{hhmm} for Western regions with negative GMT offsets.
     Regions with offset 0 is intentionally represented as +0000,
-    as -0000 is reserved for UTC.
+    as -0000 is reserved for UTC.  The offset is in minutes.
     """
     if off >= 0:
         ab_off = off
@@ -104,8 +104,8 @@ def rfc2822_timezone(off):
         ab_off = -off
         prefix = '-'
 
-    (mm, ss) = divmod(ab_off, 60)
-    return f"{prefix}{mm:02}{ss:02}"
+    (hh, mm) = divmod(ab_off, 60)
+    return f"{prefix}{hh:02}{mm:02}"
 
 
 def commit(repo, tree, parents=None, author=None, committer=None, message=''):
