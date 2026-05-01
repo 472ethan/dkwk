@@ -57,7 +57,7 @@ def git_commit(repo, name, tree, *, time=None, message=''):
         ref = repo.lookup_reference(name)
         newoid = ref.resolve().target
         if newoid != oldoid:
-            raise ValueError(f"{name} has changed: {newoid}, was {oldoid}")
+            raise ValueError(f"{name} has changed: into {newoid}, was {oldoid}")
         ref.set_target(oid, signature=ident, message=f"{myname} (initial){subj}")
         return oid
     else:
@@ -66,7 +66,7 @@ def git_commit(repo, name, tree, *, time=None, message=''):
         except KeyError:
             pass
         else:
-            raise ValueError(f"{name} has changed: {newoid}, was unborn")
+            raise ValueError(f"{name} has changed: into {newoid}, was unborn")
         # Setting identity is (very much) hopeless here; at least, not
         # in a way that isn't destructive.  We don't have a way to fix
         # this and this is an upstream bug.  I opened a pull request to
