@@ -5,6 +5,7 @@ __all__ = [
 ]
 
 import datetime
+import pygit2
 
 UTC = datetime.timezone.utc
 # Anything naive here is UTC.
@@ -71,22 +72,22 @@ def mkgitid(name, mail, time=None):
         offmin = time.utcoffset() // MINUTE
         time_adj = time.replace(tzinfo=None) - MINUTE*offmin
         moment = (time_adj - EPOCH) // SECOND
+
+        # Time is parsed a timestamp_t, which may be be large
+        # but never negative (it's unsigned), or it'll most
+        # certainly break Git.  (date_overflows in date.c)
+        #
+        # Actually, it doesn't even make it past fsck, since
+        # "-" isn't a POSIX digit (FSCK_MSG_BAD_DATE).  Even
+        # if it let it through, Git still wouldn't prepared
+        # to handle negative timestamps.
+        if moment < 0:
+            raise ValueError(f"time precedes {EPOCH:%Y-%m-%d}: "
+                             f"{time} (epoch {moment})")
+
         offset = rfc2822_formatzone(offmin)
 
-    # Time is parsed a timestamp_t, which may be be large
-    # but never negative (it's unsigned), or it'll most
-    # certainly break Git.  (date_overflows in date.c)
-    #
-    # Actually, it doesn't even make it past fsck, since
-    # "-" isn't a POSIX digit (FSCK_MSG_BAD_DATE).  Even
-    # if it let it through, Git still wouldn't prepared
-    # to handle negative timestamps.
-    if moment < 0:
-        raise ValueError(f"time precedes {EPOCH:%Y-%m-%d}: "
-                         f"{time} (epoch {moment})")
-
-    zone = rfc2822_timezone(offset, is_utc)
-    return f"{name} <{mail}> {moment} {zone}"
+    return f"{name} <{mail}> {moment} {offset}"
 
 
 def rfc2822_timezone(off):
@@ -134,4 +135,4 @@ committer {committer}
         message   = message,
     )
     payload = text_payload.encode('UTF-8')
-    return repo.odb.write(pygit2.GIT_OBJ_COMMIT, payload)
+    return repo.odb.write(pygit2.GIT_OBJECT_COMMIT, payload)
