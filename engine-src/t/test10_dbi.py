@@ -63,6 +63,8 @@ class TestDbi_Tree(TestDbi_Repo):
         repo = dbi.Repository(self.ROOT, 'master')
         wiki = repo.wiki()
         wiki.write('guide.txt', b'= guide =\n')
+        self.assertEqual(wiki.read('guide.txt'), b'= guide =\n')
+        self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
         wiki.save()
         self.assertEqual(wiki.read('guide.txt'), b'= guide =\n')
         self.assertEqual(wiki.read('index.txt'), b'= welcome! =\n')
