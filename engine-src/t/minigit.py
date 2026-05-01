@@ -59,6 +59,7 @@ def git_commit(repo, name, tree, *, time=None, message=''):
         if newoid != oldoid:
             raise ValueError(f"{name} has changed: {newoid}, was {oldoid}")
         ref.set_target(oid, message=f"{myname} (initial){subj}")
+        return oid
     else:
         try:
             newoid = repo.lookup_reference(name).resolve().target
@@ -71,3 +72,4 @@ def git_commit(repo, name, tree, *, time=None, message=''):
         # this and this is an upstream bug.  I opened a pull request to
         # fix this: <https://github.com/libgit2/pygit2/pull/1461>
         repo.create_reference(name, oid)
+        return oid

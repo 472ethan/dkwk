@@ -122,17 +122,19 @@ def commit(repo, tree, parents=None, author=None, committer=None, message=''):
         message += "\n"
     text_payload = """\
 tree {tree}
-{parent}
+{parent}\
 author {author}
 committer {committer}
 
 {message}\
 """.format(
         tree      = tree,
-        parent    = "\n".join(f"parent {p}" for p in parents or ()),
+        parent    = "".join(f"parent {p}\n" for p in parents or ()),
         author    = author,
         committer = committer,
         message   = message,
     )
     payload = text_payload.encode('UTF-8')
+    import pprint
+    pprint.pprint(payload)
     return repo.odb.write(pygit2.GIT_OBJECT_COMMIT, payload)
