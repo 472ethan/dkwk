@@ -58,7 +58,7 @@ def git_commit(repo, name, tree, *, time=None, message=''):
         newoid = ref.resolve().target
         if newoid != oldoid:
             raise ValueError(f"{name} has changed: {newoid}, was {oldoid}")
-        ref.set_target(oid, message=f"{myname} (initial){subj}")
+        ref.set_target(oid, signature=ident, message=f"{myname} (initial){subj}")
         return oid
     else:
         try:
