@@ -16,3 +16,6 @@ perl5/
 # Ruby bundle
 .bundle/config
 vendor/bundle/
+
+# NPM
+node_modules/
