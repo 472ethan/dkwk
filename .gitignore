@@ -19,3 +19,5 @@ vendor/bundle/
 
 # NPM
 node_modules/
+# Node TAP
+.tap/
