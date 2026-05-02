@@ -17,7 +17,7 @@ from pydantic import BaseModel
 from . import __version__
 from . import can
 from . import dbi
-from . import git as gitmod
+from . import git
 
 
 WIKI_REPO   = os.environ.get('WIKI_REPO',   '.')
@@ -55,6 +55,7 @@ def api_read(f: str):
         data = wiki.read(f"{name}.txt")
     except KeyError:
         raise fastapi.HTTPException(404, f"page not found: {name!r}")
+    # TODO: Use REST; I don't want to deal with charset ever
     return fastapi.responses.Response(content=data, media_type='text/plain; charset=utf-8')
 
 
@@ -76,7 +77,7 @@ def api_post(f: str, body: _PageEdit, request: fastapi.Request):
         repo.join(wiki)
         host = (request.client.host if request.client else 'unknown')
         now  = datetime.datetime.utcnow()
-        author = gitmod.mkgitid(host, 'www-data@wiki', now)
+        author = git.mkgitid(host, 'www-data@engine.cs472.endfind.me', now)
         repo.commit(author, f"Edit {name}")
     except fastapi.HTTPException:
         raise
@@ -91,9 +92,6 @@ class Application:
     title = "DK-Wiki backend"
     description = "Default implementation"
     version = __version__
-
-    def __init__(self):
-        pass
 
     def to_asgi(self):
         app = fastapi.FastAPI(
