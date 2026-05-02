@@ -90,7 +90,7 @@ def mkgitid(name, mail, time=None):
     return f"{name} <{mail}> {moment} {offset}"
 
 
-def rfc2822_timezone(off):
+def rfc2822_formatzone(off):
     """
     Format +{hhmm} for Eastern regions with positive GMT offsets
     or -{hhmm} for Western regions with negative GMT offsets.
