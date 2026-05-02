@@ -175,8 +175,8 @@ class Tree:
 
     def save(self):
         if not self.tree:
-            tree = self.index.write_tree(self.repo)
-            self.tree = self.repo[tree]
+            oid = self.index.write_tree(self.repo)
+            self.tree = self.repo[oid]
         return self.tree
 
     def read(self, path):
