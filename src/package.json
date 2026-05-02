@@ -1,0 +1,27 @@
+{
+  "name": "dkwiki-frontend",
+  "version": "0.0.0",
+  "description": "DK-Wiki frontend — parser, styles, linting, tests",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "tap",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint '../public_html/**/*.css'",
+    "lint": "npm run lint:js && npm run lint:css",
+    "build": "cp parser.js ../public_html/parser.js"
+  },
+  "tap": {
+    "files": [
+      "t/**/*.tap.js"
+    ],
+    "reporter": "spec"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "eslint": "^9.26.0",
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard": "^37.0.0",
+    "tap": "^21.7.1"
+  }
+}
