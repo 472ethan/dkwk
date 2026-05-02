@@ -75,6 +75,8 @@ class TestDbi_Tree(TestDbi_Repo):
         index = pygit2.Index()
         blob = rebo.create_blob(b'= welcome! =\n')
         index.add(pygit2.IndexEntry('wiki/index.txt', blob, pygit2.GIT_FILEMODE_BLOB))
+        blob = rebo.create_blob(b'print("Hello world")\n')
+        index.add(pygit2.IndexEntry('engine-src/hello.py', blob, pygit2.GIT_FILEMODE_BLOB))
         tree = index.write_tree(rebo)
         HEAD = git_commit(rebo, 'refs/heads/master', tree)
         repo = dbi.Repository(self.ROOT, 'master')
@@ -100,5 +102,4 @@ class TestDbi_Tree(TestDbi_Repo):
         self.assertEqual(repo.head.committer.time, 1777661692)
         self.assertEqual(repo.head.committer.offset, 0)
         self.assertEqual(repo.head.message, "POST /api/post?f=guide/index.txt\n")
-
-    # TODO: Test if this preserves other subtrees (e.g. this very source code)
+        self.assertEqual(repo.head.tree['engine-src/hello.py'].read_raw(), b'print("Hello world")\n')
