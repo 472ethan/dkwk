@@ -16,8 +16,12 @@
 # Add the following lines to /etc/rc.conf to enable dkwk:
 # dkwk_enable (bool):        Set to "NO" by default.
 #                            Set it to "YES" to enable dkwk.
-# dkwk_user (str):           Set to "www" by default.
-#                            User to run dkwk as.
+# dkwk_owner (str):          Set to "www" by default.
+#                            User to run as.
+# dkwk_group (str):          Set to "www" by default.
+#                            Group to run as.
+# dkwk_run_mode (str):       Set to "750" by default.
+#                            Directory mode of "/var/run/dkwk".
 # dkwk_repo (str):           Set to "/var/db/dkwk/wiki.git" by default.
 #                            Path to wiki database.
 # dkwk_branch (str):         Set to "main" by default.
@@ -32,32 +36,50 @@
 
 . /etc/rc.subr
 
-name="dkwk"
-rcvar="dkwk_enable"
-pidfile="/var/run/dkwk.asgi.pid"
+name=dkwk
+rcvar=dkwk_enable
+rundir="/var/run"
+pidfile="${rundir}/${name}.pid"
+
+# hooks! hooks?
+start_precmd=dkwk_start_pre
 
 load_rc_config $name
 
 : ${dkwk_enable:="NO"}
-: ${dkwk_user:="www"}
+: ${dkwk_owner:="www"}
+: ${dkwk_group:="www"}
+# The default prevents from wannabe users outside
+# of our group from snooping the socket directly...
+# Technically, even same-group users shouldn't need
+# permission to read, since we'd always provide a
+# direct path instead of have them guess.  But 710
+# looks ugly... well, we can argue on that later. ;)
+: ${dkwk_run_mode:="750"}
 : ${dkwk_repo:="/var/db/dkwk/wiki.git"}
 : ${dkwk_branch:="main"}
-: ${dkwk_bind:="unix:/var/run/dkwk.asgi.sock"}
+: ${dkwk_bind:="unix:/var/run/dkwk/asgi.sock"}
 : ${dkwk_bin:="/var/db/dkwk/venv/bin/uvicorn"}
 : ${dkwk_app:="--factory dkwk.asgi:default"}
 
-command=$dkwk_bin
-command_user=$dkwk_user
-dkwk_env="WIKI_REPO=$dkwk_repo WIKI_BRANCH=$dkwk_branch"
+command=${dkwk_bin}
+command_user=${dkwk_owner}
+command_group=${dkwk_group}
+
 try_bind=${dkwk_bind#unix:}
 if [ "$try_bind" != "$dkwk_bind" ]
 then
-	command_args="--uds $try_bind"
+	command_args="--uds ${try_bind}"
 else
 	bind_host="${dkwk_bind%:*}"
 	bind_port="${dkwk_bind#*:}"
-	command_args="--host $bind_host --port $bind_port"
+	command_args="--host ${bind_host} --port ${bind_port}"
 fi
 command_args="${command_args}${command_args:+ }${dkwk_app}"
+
+dkwk_env="WIKI_REPO=${dkwk_repo} WIKI_BRANCH=${dkwk_branch}"
+dkwk_start_pre () {
+	install -d -o "$dkwk_owner" -g "$dkwk_group" -m "$dkwk_run_mode" "${rundir}/${name}"
+}
 
 run_rc_command "$1"
