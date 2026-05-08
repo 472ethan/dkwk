@@ -1,0 +1,19 @@
+#!/bin/sh
+# PROVIDE: dkwk
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="dkwk"
+rcvar="dkwk_enable"
+
+load_rc_config $name
+
+: ${dkwk_enable:="NO"}
+: ${dkwk_user:="www"}
+: ${dkwk_wiki_repo:="/var/db/dkwk/wiki.git"}
+: ${dkwk_wiki_branch:="main"}
+: ${dkwk_host:="127.0.0.1"}
+# dkwk_port="8000"         # default
+# dkwk_user="www"          # default
