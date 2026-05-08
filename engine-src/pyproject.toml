@@ -22,4 +22,4 @@ dependencies = [
 ]
 
 [tool.setuptools]
-py-modules = ["dkwk"]
+packages = ["dkwk"]
