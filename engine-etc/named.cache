@@ -1,0 +1,32 @@
+; <<>> DiG 9.20.20 <<>> endfind.me ; 2026-05-08 08:31:49 -0500
+;
+; This BIND zone file is scoped to the "cs472.endfind.me."
+; subdomain.  Everything else is provided merely for
+; structural integrity of a zone file.  Namely, the SOA
+; and NS below may not be accurate (as of now, Cloudflare
+; is authoritative over my "endfind.me." zone, so this is
+; not at all accurate.)
+;
+; It helps to validate/compile with named-compilezone(1),
+; if you have BIND utils installed.  For instance, to dump
+; this compiled zone to standard output, run:
+; named-compilezone -o - endfind.me. named.cache
+;
+$TTL 3600
+$ORIGIN endfind.me.
+@      IN   SOA   ns1.rapidcow.net. ethan.rapidcow.org. (
+                          1778247109 ; serial number
+                          12h        ; refresh
+                          15m        ; update retry
+                          4d         ; expiry
+                          2h         ; minimum
+                          )
+       IN   NS    ns1.rapidcow.net.
+       IN   NS    ns2.rapidcow.net.
+
+cs472  IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/3192186101"
+       IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/2159559945"
+       IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1948918996"
+       IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/3262507931"
+
+engine.cs472   IN CNAME cs400-vm.yizx.net.
