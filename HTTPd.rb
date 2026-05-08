@@ -19,6 +19,7 @@ options = {
 
 OptionParser.new do |o|
   options[:name] = o.program_name
+  o.banner = "Usage: #{o.program_name} [-h] [-o ADDR] [-p PORT] [root]"
   o.on("-h", "--help", "Print this help message") do
     puts o
     exit
