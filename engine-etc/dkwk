@@ -26,6 +26,8 @@
 #                            Bind address (UNIX domain or TCP host:port).
 # dkwk_bin (str):            Set to "/var/db/dkwk/venv/bin/uvicorn" by default.
 #                            Path to Uvicorn ASGI server.
+# dkwk_app (str):            Set to "--factory dkwk.asgi:default" by default.
+#                            ASGI code.
 #
 
 . /etc/rc.subr
@@ -42,6 +44,7 @@ load_rc_config $name
 : ${dkwk_branch:="main"}
 : ${dkwk_bind:="unix:/var/run/dkwk.asgi.sock"}
 : ${dkwk_bin:="/var/db/dkwk/venv/bin/uvicorn"}
+: ${dkwk_app:="--factory dkwk.asgi:default"}
 
 command=$dkwk_bin
 command_user=$dkwk_user
@@ -55,5 +58,6 @@ else
 	bind_port="${dkwk_bind#*:}"
 	command_args="--host $bind_host --port $bind_port"
 fi
+command_args="${command_args}${command_args:+ }${dkwk_app}"
 
 run_rc_command "$1"
