@@ -45,7 +45,7 @@ if ($initsys eq 'freebsd') {
 	print STDERR sprintf "+ install %04o %s %s\n",
 		$bits, $source, $target;
 	my $file;
-	sysopen my $file, $target, O_WRONLY|O_CREAT, $bits
+	sysopen my $file, $target, O_WRONLY|O_CREAT|O_TRUNC, $bits
 		or die qq[open $target ">": $!\n];
 	binmode $file;
 	copy $source, $file;
