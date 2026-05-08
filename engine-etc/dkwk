@@ -1,19 +1,59 @@
 #!/bin/sh
+
 # PROVIDE: dkwk
-# REQUIRE: NETWORKING
+# REQUIRE: DAEMON cleanvar
 # KEYWORD: shutdown
+
+#
+# This is a FreeBSD init script.  It is to
+# be installed to /usr/local/etc/rc.d/dkwk,
+# with the executable bit set.
+#
+# Very largely based on anubis ("run/anubis.freebsd"),
+# nginx (from the ports tree), and rc scripting guide:
+# <https://docs.FreeBSD.org/en/articles/rc-scripting/>
+#
+# Add the following lines to /etc/rc.conf to enable dkwk:
+# dkwk_enable (bool):        Set to "NO" by default.
+#                            Set it to "YES" to enable dkwk.
+# dkwk_user (str):           Set to "www" by default.
+#                            User to run dkwk as.
+# dkwk_repo (str):           Set to "/var/db/dkwk/wiki.git" by default.
+#                            Path to wiki database.
+# dkwk_branch (str):         Set to "main" by default.
+#                            Default branch.
+# dkwk_bind (str):           Set to "unix:/var/run/dkwk.asgi.sock" by default.
+#                            Bind address (UNIX domain or TCP host:port).
+# dkwk_bin (str):            Set to "/var/db/dkwk/venv/bin/uvicorn" by default.
+#                            Path to Uvicorn ASGI server.
+#
 
 . /etc/rc.subr
 
 name="dkwk"
 rcvar="dkwk_enable"
+pidfile="/var/run/dkwk.asgi.pid"
 
 load_rc_config $name
 
 : ${dkwk_enable:="NO"}
 : ${dkwk_user:="www"}
-: ${dkwk_wiki_repo:="/var/db/dkwk/wiki.git"}
-: ${dkwk_wiki_branch:="main"}
-: ${dkwk_host:="127.0.0.1"}
-# dkwk_port="8000"         # default
-# dkwk_user="www"          # default
+: ${dkwk_repo:="/var/db/dkwk/wiki.git"}
+: ${dkwk_branch:="main"}
+: ${dkwk_bind:="unix:/var/run/dkwk.asgi.sock"}
+: ${dkwk_bin:="/var/db/dkwk/venv/bin/uvicorn"}
+
+command=$dkwk_bin
+command_user=$dkwk_user
+dkwk_env="WIKI_REPO=$dkwk_repo WIKI_BRANCH=$dkwk_branch"
+try_bind=${dkwk_bind#unix:}
+if [ "$try_bind" != "$dkwk_bind" ]
+then
+	command_args="--uds $try_bind"
+else
+	bind_host="${dkwk_bind%:*}"
+	bind_port="${dkwk_bind#*:}"
+	command_args="--host $bind_host --port $bind_port"
+fi
+
+run_rc_command "$1"
