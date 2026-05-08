@@ -83,7 +83,7 @@ then
 		# in fact handle this madness! :^)
 		case "$_interp" in
 		\#!*)
-			# IFS splitting is intentional here.
+			# Word splitting is intentional here.
 			# (You can warn me on the next one, shellcheck!)
 			# shellcheck disable=SC2086
 			set -- ${_interp#\#!}
