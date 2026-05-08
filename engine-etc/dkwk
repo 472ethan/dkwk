@@ -93,10 +93,13 @@ then
 			exit 1
 			;;
 		esac
-	)"; then
+	)"
+	then
+		command_interpreter=$_interp
+	else
 		# Not an interpreted script?
 		# Unlikely but okay....
-		command_interpreter=$_interp
+		:
 	fi
 	unset _interp
 fi
