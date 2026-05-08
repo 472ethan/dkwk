@@ -26,6 +26,8 @@ unless ($initsys) {
 		} else {
 			die "I am not familiar with your /sbin/init: $initlink\n";
 		}
+	} else {
+		die "I'm not ready to handle the majestic $^O, sorry\n";
 	}
 }
 
