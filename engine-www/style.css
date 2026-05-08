@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: content-box;
+}
+
+html {
+	color-scheme: light dark;
+}
+
+/*
+  I love margin collapse and
+  you should too
+ */
+main.text {
+	margin: 1rem;
+}
