@@ -4,13 +4,18 @@ use Getopt::Long;
 use File::Basename;
 use File::Copy;
 use Fcntl;
-my $usage = "usage: $0 [-O initsys] [-h]";
+my $usage = "usage: $0 [-O initsys] [-h]\n";
 my $initsys;
 
 GetOptions(
 	'O=s' => \$initsys,
 	'h' => \my $help)
 	or die $usage;
+
+if ($help) {
+	print $usage;
+	exit;
+}
 
 unless ($initsys) {
 	if ($^O eq 'freebsd') {
