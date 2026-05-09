@@ -55,8 +55,9 @@
     import { parse } from './parser.js';
 
     const DRAFT_KEY  = 'draft:Guestbook/index';
-    const API_READ   = '/api/read?f=Guestbook/index';
-    const API_POST   = '/api/post?f=Guestbook/index';
+    const BASE_URL   = '//engine.cs472.endfind.me';
+    const API_READ   = BASE_URL + '/api/read?f=Guestbook/index';
+    const API_POST   = BASE_URL + '/api/post?f=Guestbook/index';
 
     const viewSection = document.getElementById('view-section');
     const editSection = document.getElementById('edit-section');
