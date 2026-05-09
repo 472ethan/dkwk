@@ -1,4 +1,4 @@
-; <<>> DiG 9.20.20 <<>> endfind.me ; 2026-05-08 08:31:49 -0500
+; <<>> DiG 9.20.20 <<>> endfind.me ; 2026-05-09 07:31:22 -0500
 ;
 ; This BIND zone file is scoped to the "cs472.endfind.me."
 ; subdomain.  Everything else is provided merely for
@@ -15,7 +15,7 @@
 $TTL 3600
 $ORIGIN endfind.me.
 @      IN   SOA   ns1.rapidcow.net. ethan.rapidcow.org. (
-                          1778247109 ; serial number
+                          1778329882 ; serial number
                           12h        ; refresh
                           15m        ; update retry
                           4d         ; expiry
@@ -24,7 +24,8 @@ $ORIGIN endfind.me.
        IN   NS    ns1.rapidcow.net.
        IN   NS    ns2.rapidcow.net.
 
-cs472  IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/3192186101"
+cs472  IN   CAA 0 iodef "mailto:security@rapidcow.org"
+       IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/3192186101"
        IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/2159559945"
        IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1948918996"
        IN   CAA 0 issue "letsencrypt.org;accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/3262507931"
