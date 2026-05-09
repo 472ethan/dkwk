@@ -41,7 +41,7 @@ if ($initsys eq 'freebsd') {
 	if (my $umask = umask) {
 		$bits &= ~$umask;
 	}
-	my ($source, $target) = qw(dkwk /usr/local/etc/rc.d/dkwk);
+	my ($source, $target) = qw(engine-etc/dkwk /usr/local/etc/rc.d/dkwk);
 	print STDERR sprintf "+ install -m %04o %s %s\n",
 		$bits, $source, $target;
 	my $file;
