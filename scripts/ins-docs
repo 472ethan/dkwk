@@ -1,0 +1,2 @@
+#!/bin/sh
+rsync -az --info=progress2 engine-www/ /srv/www/472/engine/
