@@ -29,7 +29,7 @@
 #                            Path to wiki database.
 # dkwk_branch (str):         Set to "main" by default.
 #                            Default branch.
-# dkwk_bind (str):           Set to "unix:/var/run/dkwk.asgi.sock" by default.
+# dkwk_bind (str):           Set to "unix:/var/run/dkwk/asgi.sock" by default.
 #                            Bind address (UNIX domain or TCP host:port).
 # dkwk_bin (str):            Set to "/var/db/dkwk/venv/bin/uvicorn" by default.
 #                            Path to Uvicorn ASGI server.
