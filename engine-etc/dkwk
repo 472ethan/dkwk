@@ -43,7 +43,12 @@
 
 name=dkwk
 rcvar="${name}_enable"
-pidfile="/var/run/${name}.pid"
+# We want a path that the (potentially)
+# unprivileged user that we only know
+# owns /var/run/${name} for sure can
+# write to; time to ditch the idea of
+# /var/run/${name}.pid.... :(
+pidfile="/var/run/${name}/asgi.pid"
 
 # hooks! hooks?
 start_precmd=dkwk_start_pre
