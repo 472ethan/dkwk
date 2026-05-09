@@ -71,8 +71,6 @@ load_rc_config $name
 
 command=/usr/sbin/daemon
 procname=${dkwk_bin}
-command_user=${dkwk_owner}
-command_group=${dkwk_group}
 
 if [ -f "$dkwk_bin" ] && [ -r "$dkwk_bin" ]
 then
@@ -128,6 +126,10 @@ command_args="${_daemon_args+"$_daemon_args "}-- ${dkwk_bin} ${command_args:+"$c
 unset _daemon_args
 
 dkwk_env="WIKI_REPO=${dkwk_repo} WIKI_BRANCH=${dkwk_branch}"
+dkwk_user=${dkwk_owner}
+# ${name}_group is only available in chroot?
+# We'll wait for beastie's jail time then...
+#dkwk_group=${dkwk_group}
 dkwk_start_pre () {
 	local _dir
 	for _dir in "/var/run/${name}" "/var/log/${name}"
