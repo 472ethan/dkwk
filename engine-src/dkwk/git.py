@@ -123,7 +123,7 @@ def commit(repo, tree, parents=None, author=None, committer=None, message=''):
     if author is None or committer is None:
         # default_signature is a descriptor/property!  No ().
         ident = repo.default_signature
-        ident_wire = f"{ident.name} <{ident.email}> {sig.time} {rfc2822_formatzone(sig.offset)}"
+        ident_wire = f"{ident.name} <{ident.email}> {ident.time} {rfc2822_formatzone(ident.offset)}"
         if author is None:
             author = ident_wire
         if committer is None:
