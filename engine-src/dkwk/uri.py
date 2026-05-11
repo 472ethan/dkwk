@@ -13,7 +13,7 @@ import urllib.parse
 
 # RFC 3986 Sect 3.1
 # scheme      = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-GIT_PROTO = re.compile(r'git+([a-zA-Z][a-zA-Z0-9+-.]*://)')
+GIT_PROTO = re.compile(r'git\+([a-zA-Z][a-zA-Z0-9+-.]*://)')
 # The dots are greedy enough in this case, $ shouldn't be necessary...
 SCP_REGEX = re.compile(r'(.+@.+?):(.*)', flags=re.DOTALL)
 
