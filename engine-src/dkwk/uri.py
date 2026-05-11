@@ -37,7 +37,7 @@ def parse_git_remote(location):
         raise ValueError('empty URI')
     try_git = GIT_PROTO.match(location)
     if try_git:
-        norm = f"{try_git.group(0)}{location[try_git.end():]}"
+        norm = f"{try_git.group(1)}{location[try_git.end():]}"
     else:
         try_scp = SCP_REGEX.match(location)
         if try_scp:
