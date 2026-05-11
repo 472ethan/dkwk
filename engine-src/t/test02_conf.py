@@ -8,16 +8,16 @@ import types
 import unittest
 from unittest.mock import patch
 
+
 # dkwk.config is generated from config.py.in at install time and
 # doesn't exist in the source tree, so we stub it before
 # importing dkwk.conf.
-_stub = types.ModuleType('dkwk.config')
-_stub.SYSCONFDIR = '/nonexistent'
+config_stub = types.ModuleType('dkwk.config')
+config_stub.SYSCONFDIR = '/nonexistent'
 
-
-@patch.dict(sys.modules, {'dkwk.config': _stub})
+@patch.dict(sys.modules, {'dkwk.config': config_stub})
 class TestConf(unittest.TestCase):
-    def test_parse_env(self):
+    def test_parse(self):
         import dkwk.conf as conf
         with tempfile.NamedTemporaryFile(
                 'w', suffix='.conf', delete=False,
@@ -33,7 +33,7 @@ class TestConf(unittest.TestCase):
             )
             path = f.name
         try:
-            data = conf.parse_env(path)
+            data = conf.parse(path)
         finally:
             os.unlink(path)
         self.assertEqual(data['git_remote_uri'],

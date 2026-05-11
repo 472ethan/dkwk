@@ -16,8 +16,10 @@ import os
 
 from .config import SYSCONFDIR
 
+__all__ = []
 
 CONF_NAME = 'dkwk.conf'
+CONF_PATH = os.path.join(SYSCONFDIR, CONF_NAME)
 
 KNOWN_KEYS = (
     'git_remote_uri',
@@ -26,15 +28,8 @@ KNOWN_KEYS = (
     'git_remote_ssh_passphrase',
 )
 
-# Default = absent.  Callers that depend on these (e.g. the push
-# background task) should check for None and decline to act.
-git_remote_uri            = None
-git_remote_ssh_publickey  = None
-git_remote_ssh_secretkey  = None
-git_remote_ssh_passphrase = None
 
-
-def load(path=None):
+def load():
     """
     (Re-)read dkwk.conf and update this module's globals for any
     KNOWN_KEYS that appear.  Returns the full parsed dict
@@ -43,32 +38,26 @@ def load(path=None):
     A missing file is treated as empty -- not an error, since the
     push task is opt-in.  Syntax errors raise ValueError.
     """
-    if path is None:
-        path = os.path.join(SYSCONFDIR, CONF_NAME)
-
-    data = parse_env(path)
-
-    g = globals()
-    for key in KNOWN_KEYS:
-        if key in data:
-            g[key] = data[key]
-    return data
-
-
-def parse_env(path):
-    out = {}
     try:
-        f = open(path, encoding='utf-8')
-    except FileNotFoundError:
-        return out
-    with f:
-        for lineno, raw in enumerate(f, start=1):
+        data = parse(CONF_PATH)
+    except IOError:
+        data = {}
+    self = globals()
+    for key in KNOWN_KEYS:
+        self[key] = data.get(key)
+
+
+def parse(path):
+    out = {}
+    with open(path, encoding='utf-8') as fp:
+        # TextIOWrapper doesn't have input_line_number?
+        # how atrocious >:(
+        for lineno, raw in enumerate(fp, start=1):
             line = raw.strip()
             if not line or line.startswith('#'):
                 continue
             if '=' not in line:
-                raise ValueError(
-                    f"{path}:{lineno}: missing '=' in line: {raw!r}")
+                raise ValueError(f"{path}:{lineno}: missing '=' in line: {raw!r}")
             key, value = line.split('=', 1)
             key = key.strip()
             value = value.strip()
