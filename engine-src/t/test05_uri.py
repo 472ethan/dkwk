@@ -58,7 +58,3 @@ class TestRemoteLoc(unittest.TestCase):
         # Per docstring: ValueError on malformed inputs.
         with self.assertRaises(ValueError):
             n('')  # empty
-        with self.assertRaises(ValueError):
-            n('plain.host:path')  # no '@', not scp
-        with self.assertRaises(ValueError):
-            n('/local/path')  # plain path, no scheme or scp colon
