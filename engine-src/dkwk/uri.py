@@ -43,5 +43,7 @@ def parse_git_remote(location):
             if not path.startswith('/'):
                 path = f"/~/{path}"
             norm = f"ssh://{host}{path}"
+        else:
+            norm = location
     uri = urllib.parse.urlsplit(norm)
     return uri
