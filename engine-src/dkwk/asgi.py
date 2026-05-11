@@ -68,7 +68,12 @@ def api_post(f: str, body: _PageEdit, request: fastapi.Request):
         raise fastapi.HTTPException(400, str(e))
     if not can.can_write(name):
         raise fastapi.HTTPException(403, "write not allowed")
-    data = body.text.encode('utf-8')
+    try:
+        data = body.text.encode('utf-8')
+    except UnicodeEncodeError as e:
+        raise fastapi.HTTPException(400, f"invalid UTF-8: {e}")
+    if len(data) > 64 * 1024:
+        raise fastapi.HTTPException(413, "page too large: limit is 64 KiB")
     try:
         repo = dbi.Repository(WIKI_REPO, WIKI_BRANCH)
         if repo.head is None:
