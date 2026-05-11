@@ -18,6 +18,7 @@ from . import __version__
 from . import can
 from . import dbi
 from . import git
+from . import rpxy
 
 
 WIKI_REPO   = os.environ.get('WIKI_REPO',   '.')
@@ -75,7 +76,10 @@ def api_post(f: str, body: _PageEdit, request: fastapi.Request):
         wiki = repo.wiki()
         wiki.write(f"{name}.txt", data)
         repo.join(wiki)
-        host = (request.client.host if request.client else 'Web guy')
+        try:
+            host = rpxy.peer_address(request)
+        except ValueError:
+            raise fastapi.HTTPException(500, "server misconfigured: cannot determine client address")
         now  = datetime.datetime.utcnow()
         author = git.mkgitid(host, 'www@engine.cs472.endfind.me', now)
         repo.commit(author, f"Edit {name}")
