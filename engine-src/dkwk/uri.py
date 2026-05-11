@@ -33,6 +33,8 @@ def parse_git_remote(location):
 
     Raise ValueError on malformed scp-specifiers and URIs alike.
     """
+    if not location:
+        raise ValueError('empty URI')
     try_git = GIT_PROTO.match(location)
     if try_git:
         norm = f"{try_git.group(0)}{location[try_git.end():]}"
