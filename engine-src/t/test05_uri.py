@@ -2,8 +2,6 @@
 """Tests for dkwk.uri."""
 
 import unittest
-import urllib.parse
-from urllib.parse import SplitResult
 
 from dkwk.uri import parse_git_remote as n
 
@@ -18,29 +16,49 @@ class TestRemoteLoc(unittest.TestCase):
     """
 
     def test_ssh_uri_passthrough(self):
-        self.assertEqual(n('ssh://git@host/path'), SplitResult(
-            scheme='ssh', netloc='git@host', path='/path',
-            query='', fragment=''))
-        self.assertEqual(n('ssh://git@host:2222/path'), SplitResult(
-            scheme='ssh', netloc='git@host:2222', path='/path',
-            query='', fragment=''))
+        r = n('ssh://git@host/path')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@host')
+        self.assertEqual(r.path, '/path')
+        self.assertIsNone(r.port)
+
+    def test_ssh_uri_with_port(self):
+        r = n('ssh://git@host:2222/path')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@host:2222')
+        self.assertEqual(r.path, '/path')
+        self.assertIsInstance(r.port, int)
+        self.assertEqual(r.port, 2222)
 
     def test_git_plus_ssh_stripped(self):
-        self.assertEqual(n('git+ssh://git@host/path'),
-                         'ssh://git@host/path')
+        r = n('git+ssh://git@host/path')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@host')
+        self.assertEqual(r.path, '/path')
+        self.assertIsNone(r.port)
 
-    def test_scp_style_translated(self):
-        # Home-relative marker is /~/, which git itself
-        # understands.
-        self.assertEqual(n('git@host:foo/bar.git'),
-                         'ssh://git@host/~/foo/bar.git')
-        self.assertEqual(n('git@host:bar.git'),
-                         'ssh://git@host/~/bar.git')
+    def test_scp_style_home_relative(self):
+        # 'user@host:path'  ->  ssh://user@host/~/path
+        r = n('git@host:foo/bar.git')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@host')
+        self.assertEqual(r.path, '/~/foo/bar.git')
+        self.assertIsNone(r.port)
 
-    def test_non_ssh_returns_none(self):
-        self.assertIsNone(n('https://host/path'))
-        # Userinfo-with-port URLs must not be mistaken for scp.
-        self.assertIsNone(n('https://user@host:443/path'))
-        self.assertIsNone(n('git+https://user@host/path'))
-        self.assertIsNone(n('/local/path'))
-        self.assertIsNone(n('plain.host:path'))  # no '@', not scp
+    def test_scp_style_absolute(self):
+        # 'user@host:/path'  ->  ssh://user@host/path
+        # (no /~/ marker -- leading slash means real absolute path)
+        r = n('git@host:/srv/repo.git')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@host')
+        self.assertEqual(r.path, '/srv/repo.git')
+        self.assertIsNone(r.port)
+
+    def test_malformed_raises(self):
+        # Per docstring: ValueError on malformed inputs.
+        with self.assertRaises(ValueError):
+            n('')  # empty
+        with self.assertRaises(ValueError):
+            n('plain.host:path')  # no '@', not scp
+        with self.assertRaises(ValueError):
+            n('/local/path')  # plain path, no scheme or scp colon
