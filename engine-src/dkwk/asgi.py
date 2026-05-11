@@ -75,9 +75,9 @@ def api_post(f: str, body: _PageEdit, request: fastapi.Request):
         wiki = repo.wiki()
         wiki.write(f"{name}.txt", data)
         repo.join(wiki)
-        host = (request.client.host if request.client else 'unknown')
+        host = (request.client.host if request.client else 'Web guy')
         now  = datetime.datetime.utcnow()
-        author = git.mkgitid(host, 'www-data@engine.cs472.endfind.me', now)
+        author = git.mkgitid(host, 'www@engine.cs472.endfind.me', now)
         repo.commit(author, f"Edit {name}")
     except fastapi.HTTPException:
         raise
