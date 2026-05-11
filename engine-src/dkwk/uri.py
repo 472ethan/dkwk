@@ -32,6 +32,10 @@ def parse_git_remote(location):
       leading slash from ``/~/path``)
 
     Raise ValueError on malformed scp-specifiers and URIs alike.
+
+    BUG: an SCP string may not have a "://" anywhere.
+    This is a dirty solution since scheme are clearly
+    restricted to a subset of ASCII characters.
     """
     if not location:
         raise ValueError('empty URI')
@@ -39,7 +43,7 @@ def parse_git_remote(location):
     if try_git:
         norm = f"{try_git.group(1)}{location[try_git.end():]}"
     else:
-        try_scp = SCP_REGEX.match(location)
+        try_scp = '://' not in location and SCP_REGEX.match(location)
         if try_scp:
             host, path = try_scp.groups()
             if not path.startswith('/'):
