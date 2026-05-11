@@ -87,6 +87,24 @@ class TestRemoteLoc(unittest.TestCase):
         r = n('/path/with%20already/repo.git')
         self.assertEqual(r.geturl(), '/path/with%20already/repo.git')
 
+    def test_local_path_preserves_invalid_percent_sequences(self):
+        # urlsplit/geturl don't validate percent escapes -- they
+        # just shuffle bytes -- so malformed '%' bytes that a
+        # strict decoder would reject still round-trip verbatim.
+        # Important because the filesystem genuinely allows any
+        # byte in a filename, '%' included.
+        for raw in [
+            '/path/with%1g/repo.git',   # non-hex second nibble
+            '/path/with%g0/repo.git',   # non-hex first nibble
+            '/path/with%ZZ/repo.git',   # both nibbles bad
+            '/path/with%2/repo.git',    # truncated escape
+            '/path/with%/repo.git',     # bare '%'
+            '/path/with%%20/repo.git',  # literal '%' before a valid escape
+            '/100%/repo.git',           # trailing '%' on a path segment
+        ]:
+            with self.subTest(raw=raw):
+                self.assertEqual(n(raw).geturl(), raw)
+
     def test_non_ascii_preserved(self):
         # Local paths carry non-ASCII through unchanged.
         self.assertEqual(n('/home/user/résumé.git').geturl(),
