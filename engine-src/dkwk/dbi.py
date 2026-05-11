@@ -3,7 +3,7 @@
 import os
 import pygit2
 
-from . import git as git
+from . import git
 
 
 __all__ = [
