@@ -2,8 +2,10 @@
 """Tests for dkwk.uri."""
 
 import unittest
+import urllib.parse
+from urllib.parse import SplitResult
 
-from dkwk.uri import normalize_ssh_uri as n
+from dkwk.uri import parse_git_remote as n
 
 
 class TestRemoteLoc(unittest.TestCase):
@@ -16,10 +18,12 @@ class TestRemoteLoc(unittest.TestCase):
     """
 
     def test_ssh_uri_passthrough(self):
-        self.assertEqual(n('ssh://git@host/path'),
-                         'ssh://git@host/path')
-        self.assertEqual(n('ssh://git@host:2222/path'),
-                         'ssh://git@host:2222/path')
+        self.assertEqual(n('ssh://git@host/path'), SplitResult(
+            scheme='ssh', netloc='git@host', path='/path',
+            query='', fragment=''))
+        self.assertEqual(n('ssh://git@host:2222/path'), SplitResult(
+            scheme='ssh', netloc='git@host:2222', path='/path',
+            query='', fragment=''))
 
     def test_git_plus_ssh_stripped(self):
         self.assertEqual(n('git+ssh://git@host/path'),

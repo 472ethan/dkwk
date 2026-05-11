@@ -20,7 +20,7 @@ import tempfile
 import threading
 
 from . import conf
-from .uri import normalize_ssh_uri
+from .uri import parse_git_remote
 
 # Auto-load conf so callers don't have to.  Tests that need to
 # override should patch dkwk.conf.CONF_PATH and re-call
@@ -43,18 +43,15 @@ def push(repo_path, branch):
     if not uri:
         return  # local mode
     priv = conf.git_remote_ssh_secretkey
-    passphrase = conf.git_remote_ssh_passphrase or ''
+    passwd = conf.git_remote_ssh_passphrase or ''
 
-    is_ssh = normalize_ssh_uri(uri) is not None
-    if is_ssh and not priv:
+    uri = parse_git_remote(uri)
+    if uri.scheme == 'ssh' and not priv:
         log.error("ssh remote %s but git_remote_ssh_secretkey is not set",
                   uri)
         return
 
-    # Strip the git+ prefix for git itself; git push doesn't
-    # recognize it.  We keep the original around for logging.
-    push_uri = uri[len('git+'):] if uri.startswith('git+') else uri
-    cmd = ['git', '-C', repo_path, 'push', push_uri,
+    cmd = ['git', '-C', repo_path, 'push', uri,
            f'refs/heads/{branch}']
     env = os.environ.copy()
 
@@ -64,12 +61,12 @@ def push(repo_path, branch):
 
     env['GIT_SSH_COMMAND'] = (
         f"ssh -i {shlex.quote(priv)}"
-        " -o BatchMode=yes"
-        " -o StrictHostKeyChecking=accept-new"
-        " -o IdentitiesOnly=yes"
+        f" -o BatchMode=yes"
+        f" -o StrictHostKeyChecking=accept-new"
+        f" -o IdentitiesOnly=yes"
     )
     with tempfile.TemporaryDirectory(prefix='dkwk-push-') as tmpdir:
-        feeder = wire_askpass(env, tmpdir, passphrase)
+        feeder = wire_askpass(env, tmpdir, passwd)
         try:
             run(cmd, env, uri, branch, feeder=feeder)
         finally:
