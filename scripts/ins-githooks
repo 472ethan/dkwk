@@ -3,6 +3,12 @@
 # .... I'm writing -sf instead of -fs!
 # MWAHAAHAHAHAHA so evil, i know... >:,>
 set -xe
-git submodule init
-git submodule update
+git submodule init githooks/commit-msg
+# This guy is a big fat liar on first merge
+git submodule update githooks/commit-msg || {
+commit=$(git rev-parse @:githooks/commit-msg)
+remote=$(git config submodule."githooks/commit-msg".url)
+git -C githooks/commit-msg fetch "$remote" "$commit" &&
+	git -C githooks/commit-msg merge --ff-only FETCH_HEAD
+}
 ln -fs ../../githooks/commit-msg/commit-msg .git/hooks/commit-msg
