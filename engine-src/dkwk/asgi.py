@@ -125,7 +125,7 @@ class Application:
                 raise fastapi.HTTPException(500, "server misconfigured: cannot determine client address")
             now  = datetime.datetime.utcnow()
             try:
-                ident = repo.default_signature
+                ident = repo.identity()
                 my_name = ident.name
                 my_mail = ident.email
             except LookupError:

@@ -83,6 +83,9 @@ class Repository:
         self.head = self.repo[oid]
         return oid
 
+    def identity(self):
+        return self.repo.default_signature
+
     def __repr__(self):
         return f"<{type(self).__qualname__} at {self.head}>"
 
