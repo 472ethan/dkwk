@@ -34,7 +34,7 @@ def parse_git_remote(location):
     Raise ValueError on malformed scp-specifiers and URIs alike.
 
     BUG: an SCP string may not have a "://" anywhere.
-    This is a dirty solution since scheme are clearly
+    This is a dirty solution since schemes are clearly
     restricted to a subset of ASCII characters.
     """
     if not location:
