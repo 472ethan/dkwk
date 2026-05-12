@@ -2,10 +2,4 @@
 
 Welcome!  If you have visited, feel free to leave a note.
 
-Test 123 ~ethan :^)
-
-IT WORKS
-
-OH MY GOSH IT WORKS
-
-*Unicode* 测试
+*Unicode* 你好 from A8 China.
