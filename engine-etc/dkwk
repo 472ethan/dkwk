@@ -146,4 +146,29 @@ dkwk_start_pre () {
 	done
 }
 
+# For some reason the PATH is so minimal it doesn't seem
+# to contain "/usr/local/bin".  (I haven't investigated
+# first-hand, but it's not hard to imagine that to be the
+# case when subprocess.run fails to find "git".)
+#
+# I have run into a similar predicament when trying to
+# retrieve the system search path on FreeBSD, NetBSD,
+# and Linux.  At least for FreeBSD, there are at least
+# two ways to get two completely different paths:
+#
+# $ getconf PATH
+# /usr/bin:/bin:/usr/sbin:/sbin
+# $ env -i sh -c 'echo $PATH'
+# /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+#
+# (Actually, it may be because that rc uses env(1), so
+# the PATH doesn't necessarily inherit from /bin/sh;
+# and if I had to guess, it was using getconf.)
+#
+# Anyways, the set of trusted binary paths should be
+# relatively fixed over a long period of time; let's
+# hard code them here.
+#
+dkwk_env="PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin${dkwk_env+" $dkwk_env"}"
+
 run_rc_command "$1"
