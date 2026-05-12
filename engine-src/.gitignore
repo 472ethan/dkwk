@@ -1,1 +1,8 @@
 /dkwk/config.py
+
+# autoconf artifacts (configure.ac and configure are tracked;
+# everything else is generated per-run or per-autoreconf)
+/autom4te.cache/
+/config.log
+/config.status
+/configure~
