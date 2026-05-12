@@ -1,0 +1,3 @@
+[submodule "githooks/commit-msg"]
+	path = githooks/commit-msg
+	url = https://gist.github.com/813e15fba295b17a06fe946d548f7491.git
