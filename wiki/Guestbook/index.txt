@@ -7,3 +7,5 @@ Test 123 ~ethan :^)
 IT WORKS
 
 OH MY GOSH IT WORKS
+
+*Unicode* 测试
