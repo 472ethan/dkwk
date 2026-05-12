@@ -18,6 +18,7 @@ from . import __version__
 from . import can
 from . import dbi
 from . import git
+from . import push
 from . import rpxy
 
 
@@ -61,7 +62,8 @@ def api_read(f: str):
 
 
 @routes.post('/api/post')
-def api_post(f: str, body: _PageEdit, request: fastapi.Request):
+def api_post(f: str, body: _PageEdit, request: fastapi.Request,
+             background_tasks: fastapi.BackgroundTasks):
     try:
         name = can.check_path(f)
     except ValueError as e:
@@ -88,6 +90,7 @@ def api_post(f: str, body: _PageEdit, request: fastapi.Request):
         now  = datetime.datetime.utcnow()
         author = git.mkgitid(host, 'www@engine.cs472.endfind.me', now)
         repo.commit(author, f"Edit {name}")
+        background_tasks.add_task(push.push, WIKI_REPO, WIKI_BRANCH)
     except fastapi.HTTPException:
         raise
     except ValueError as e:

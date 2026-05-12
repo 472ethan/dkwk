@@ -39,24 +39,27 @@ def push(repo_path, branch):
     failures are logged and swallowed; the HTTP response was
     already sent by the time this background task runs.
     """
-    uri = conf.git_remote_uri
-    if not uri:
+    raw = conf.git_remote_uri
+    if not raw:
         return  # local mode
     priv = conf.git_remote_ssh_secretkey
     passwd = conf.git_remote_ssh_passphrase or ''
 
-    uri = parse_git_remote(uri)
-    if uri.scheme == 'ssh' and not priv:
+    parsed = parse_git_remote(raw)
+    location = parsed.geturl()
+    is_ssh = parsed.scheme == 'ssh'
+
+    if is_ssh and not priv:
         log.error("ssh remote %s but git_remote_ssh_secretkey is not set",
-                  uri)
+                  location)
         return
 
-    cmd = ['git', '-C', repo_path, 'push', uri,
+    cmd = ['git', '-C', repo_path, 'push', location,
            f'refs/heads/{branch}']
     env = os.environ.copy()
 
     if not is_ssh:
-        run(cmd, env, uri, branch, feeder=None)
+        run(cmd, env, location, branch)
         return
 
     env['GIT_SSH_COMMAND'] = (
@@ -68,12 +71,12 @@ def push(repo_path, branch):
     with tempfile.TemporaryDirectory(prefix='dkwk-push-') as tmpdir:
         feeder = wire_askpass(env, tmpdir, passwd)
         try:
-            run(cmd, env, uri, branch, feeder=feeder)
+            run(cmd, env, location, branch)
         finally:
             feeder.unblock()
 
 
-def run(cmd, env, uri, branch, feeder):
+def run(cmd, env, uri, branch):
     proc = subprocess.Popen(
         cmd, env=env,
         stdin=subprocess.DEVNULL,
