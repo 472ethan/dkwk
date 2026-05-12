@@ -15,13 +15,14 @@ test "$exec_prefix" = NONE && exec_prefix='${prefix}'
 # '${prefix}/var', which is almost never the right home for
 # system state.  Pick a per-OS convention instead.
 case "$localstatedir" in
-    *'${prefix}'*|*'${exec_prefix}'*)
-        case `uname -s 2>/dev/null` in
-            Linux)                               localstatedir=/var/lib ;;
-            FreeBSD|DragonFly|NetBSD|OpenBSD)    localstatedir=/var/db ;;
-        esac
-        AC_MSG_NOTICE([defaulting --localstatedir to $localstatedir])
-        ;;
+*'${prefix}'*|*'${exec_prefix}'*)
+	case `uname -s 2>/dev/null` in
+	Linux)                               localstatedir=/var/lib ;;
+	FreeBSD|DragonFly|NetBSD|OpenBSD)    localstatedir=/var/db ;;
+	# Fall through other OSes. (for now...)
+	esac
+	AC_MSG_NOTICE([defaulting --localstatedir to $localstatedir])
+	;;
 esac
 
 eval sysconfdir=\"$sysconfdir\"
