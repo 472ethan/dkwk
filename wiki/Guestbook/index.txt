@@ -1,4 +1,4 @@
-= Guestbook
+= Guestbook/
 
 Welcome!  If you have visited, feel free to leave a note.
 
@@ -13,3 +13,5 @@ this is _version 20250512_
 Should you be *worried* about getting stuck behind a NAT?
 
 (i forgot to restart lol)
+
+We are back! :D
