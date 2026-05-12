@@ -54,6 +54,29 @@ class TestRemoteLoc(unittest.TestCase):
         self.assertEqual(r.path, '/srv/repo.git')
         self.assertIsNone(r.port)
 
+    def test_scp_style_tilde_anonymous(self):
+        # 'user@host:~/path'  ->  ssh://user@host/~/path
+        # Single leading '/' is enough -- git's connect.c strips
+        # it on the wire when path[1] == '~', so wire path is
+        # ~/path.  (Real path that resolves to pub/lib/perl5/
+        # Sort-Search.git on the RPi git shell.)
+        r = n('git@RPi-4B:~/lib/perl5/Sort-Search.git')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@RPi-4B')
+        self.assertEqual(r.path, '/~/lib/perl5/Sort-Search.git')
+        self.assertIsNone(r.port)
+
+    def test_scp_style_tilde_user_prefix(self):
+        # 'user@host:~name/path'  ->  ssh://user@host/~name/path
+        # Same single-slash rule -- wire path is ~name/path,
+        # NOT /~/~name/path (which is what an unconditional
+        # /~/ prefix would produce).
+        r = n('git@RPi-4B:~ethan/ics/uwisc/cs472/p2-site.git')
+        self.assertEqual(r.scheme, 'ssh')
+        self.assertEqual(r.netloc, 'git@RPi-4B')
+        self.assertEqual(r.path, '/~ethan/ics/uwisc/cs472/p2-site.git')
+        self.assertIsNone(r.port)
+
     def test_malformed_raises(self):
         # Per docstring: ValueError on malformed inputs.
         with self.assertRaises(ValueError):
