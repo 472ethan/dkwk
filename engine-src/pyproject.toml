@@ -1,6 +1,6 @@
 [project]
 name = "dkwk-engine"
-version = "0.20260511"
+version = "0.20260512"
 description = "DK-Wiki backend"
 authors = [{ name="Ethan Meng", email="ethan@rapidcow.org" }]
 # https://spdx.org/licenses/AGPL-3.0-or-later.html

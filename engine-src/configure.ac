@@ -1,5 +1,5 @@
 AC_PREREQ([2.71])
-AC_INIT([dkwk-engine], [0.20260511])
+AC_INIT([dkwk-engine], [0.20260512])
 
 AC_PATH_PROG([PYTHON3], [python3])
 AS_IF([test -z "$PYTHON3"],
