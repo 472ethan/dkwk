@@ -4,11 +4,11 @@ Welcome!  If you have visited, feel free to leave a note.
 
 *Unicode* 你好 from A8 China.
 
-this is _version 20250511_
+this is _version 20260511_
 
 BTW config.py is working
 
-this is _version 20250512_
+this is _version 20260512_
 
 Should you be *worried* about getting stuck behind a NAT?
 
