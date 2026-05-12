@@ -134,17 +134,21 @@ class Feeder:
 
     def unblock(self):
         # If ssh never invoked askpass (e.g. the key turned out
-        # not to be encrypted), the writer is still blocked on
-        # open().  Open the read-side ourselves once to release
-        # it, so the thread can finish before TemporaryDirectory
-        # tears the FIFO out from under it.
+        # not to be encrypted, or git failed before fork), the
+        # writer is still blocked on open().  Open the read-side
+        # ourselves to release it, then join the writer BEFORE
+        # closing -- otherwise we race the writer to close and
+        # it hits EPIPE.
         try:
             fd = os.open(self.fifo, os.O_RDONLY | os.O_NONBLOCK)
+        except OSError:
+            self.thread.join(timeout=1)
+            return
+        try:
+            self.thread.join(timeout=1)
             try:
                 os.read(fd, 4096)
             except OSError:
                 pass
+        finally:
             os.close(fd)
-        except OSError:
-            pass
-        self.thread.join(timeout=1)
