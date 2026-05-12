@@ -10,6 +10,20 @@ AS_IF([test -z "$PYTHON3"],
 # generating a Python file, so resolve here.
 test "$prefix"      = NONE && prefix=$ac_default_prefix
 test "$exec_prefix" = NONE && exec_prefix='${prefix}'
+
+# If --localstatedir wasn't given, autoconf's default is
+# '${prefix}/var', which is almost never the right home for
+# system state.  Pick a per-OS convention instead.
+case "$localstatedir" in
+    *'${prefix}'*|*'${exec_prefix}'*)
+        case `uname -s 2>/dev/null` in
+            Linux)                               localstatedir=/var/lib ;;
+            FreeBSD|DragonFly|NetBSD|OpenBSD)    localstatedir=/var/db ;;
+        esac
+        AC_MSG_NOTICE([defaulting --localstatedir to $localstatedir])
+        ;;
+esac
+
 eval sysconfdir=\"$sysconfdir\"
 eval localstatedir=\"$localstatedir\"
 
