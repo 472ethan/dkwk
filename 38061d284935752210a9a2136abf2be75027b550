@@ -1,0 +1,51 @@
+i had a pedantic commit wording i wanted to fix
+
+$ ~/tree/utils/diff-range @ 11 @{u}
+ORIG = 235c41e3fd2ffcb630b75551f5ce5d4577d982b3 (@)
+HEAD = 041fd68888eb009f0564c08e5689c33097a42727 (@{u})
+ 0:  235c41e =  0:  041fd68 configure: pick per-OS localstatedir when not given
+ 1:  786a413 =  1:  6f02848 Add autoconf configure script for config.py.in
+ 2:  89b0dc1 =  2:  498da56 Edit Guestbook/index
+ 3:  443c277 =  3:  4677e48 Edit Guestbook/index
+ 4:  c4007db =  4:  6193277 Edit Guestbook/index
+ 5:  1e5fbe1 =  5:  ba6349b asgi: Reorg FastAPI route registry
+ 6:  d5f5fef =  6:  61bb786 Add dkwk.config to gitignore
+ 7:  8097c98 =  7:  aac8e2d Wire dkwk.push into api_post via BackgroundTasks
+ 8:  1232c70 =  8:  27f13a1 fixup: pin invalid-percent passthrough in dkwk.uri tests
+ 9:  ab04ce1 =  9:  73d4e41 Document native-path passthrough in dkwk.uri tests
+10:  2f96b82 ! 10:  7fa78c6 remove ValueError tests on schemeless URIs
+--- a/2f96b82886367a9492cea123ed3133632e2ba3af	2026-05-11 21:32:24.000000000 +0000
++++ b/7fa78c63388bcb5750bae37bddfb711081c59491	2026-05-11 21:32:24.000000000 +0000
+@@ -4,10 +4,10 @@
+ committer Ethan Meng <uwisc@endfind.me> 1778535144 -0500
+ 
+ remove ValueError tests on schemeless URIs
+ 
+-only URI i forbid is really the empty string,
+-which makes no sense.  everyone else passes as a
++the only i forbid is really the empty URI, which
++makes no sense.  everything else passes as a
+ relative/absolute URI (such as a unix file path)
+ 
+ (that is to say we don't have security measures
+ like directory traversal in-place; yet.  but push
+
+to do so i had to explicitly preserve the time zones
+on the committer field, since the backend has been
+committing those with "+0000" (erroneously; but i
+don't want that "changed" just because i'm rebasing
+because that'd just be misleading...)
+
+so the replacement had to be altered from:
+
+    sed s/+0000/-0000/
+
+to
+
+    sed '/^committer www /!s/+0000/-0000/'
+
+using this Vim macro:
+
+    :%s:s/+0000/-0000/:'/^committer www /!\0':
+
+(thanks Claude)
