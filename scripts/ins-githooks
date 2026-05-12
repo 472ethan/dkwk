@@ -1,0 +1,8 @@
+#!/bin/sh
+# Today I'm just gonna be pure evil >:)
+# .... I'm writing -sf instead of -fs!
+# MWAHAAHAHAHAHA so evil, i know... >:,>
+set -xe
+git submodule init
+git submodule update
+ln -fs ../../githooks/commit-msg/commit-msg .git/hooks/commit-msg
