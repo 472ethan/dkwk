@@ -1,0 +1,44 @@
+$ git fetch rpi
+remote: Enumerating objects: 59, done.
+remote: Counting objects: 100% (59/59), done.
+remote: Compressing objects: 100% (29/29), done.
+remote: Total 47 (delta 34), reused 19 (delta 17), pack-reused 0 (from 0)
+Unpacking objects: 100% (47/47), 7.76 KiB | 2.59 MiB/s, done.
+From rpi-4b:~ethan/ics/uwisc/cs472/p2-site
+ * [new branch]      local-src/main     -> rpi/local-src/main
+   f5bd901..5337b54  refs/info/rpi-self -> refs/info/rpi-self
+
+$ ~/tree/utils/diff-range main~8 6 rpi/local-src/main
+ORIG = 1e5fbe18060c4cd6eb1f711a62ccb47aeea410db (main~8)
+HEAD = ba6349becf0ab2b9aa29382a2f5cb7d0b8f891e1 (rpi/local-src/main)
+ 0:  1e5fbe1 =  0:  ba6349b asgi: Reorg FastAPI route registry
+ 1:  d5f5fef =  1:  61bb786 Add dkwk.config to gitignore
+ 2:  8097c98 =  2:  aac8e2d Wire dkwk.push into api_post via BackgroundTasks
+ 3:  1232c70 =  3:  27f13a1 fixup: pin invalid-percent passthrough in dkwk.uri tests
+ 4:  ab04ce1 =  4:  73d4e41 Document native-path passthrough in dkwk.uri tests
+ 5:  2f96b82 !  5:  7fa78c6 remove ValueError tests on schemeless URIs
+--- a/2f96b82886367a9492cea123ed3133632e2ba3af	2026-05-11 21:32:24.000000000 +0000
++++ b/7fa78c63388bcb5750bae37bddfb711081c59491	2026-05-11 21:32:24.000000000 +0000
+@@ -4,10 +4,10 @@
+ committer Ethan Meng <uwisc@endfind.me> 1778535144 -0500
+ 
+ remove ValueError tests on schemeless URIs
+ 
+-only URI i forbid is really the empty string,
+-which makes no sense.  everyone else passes as a
++the only i forbid is really the empty URI, which
++makes no sense.  everything else passes as a
+ relative/absolute URI (such as a unix file path)
+ 
+ (that is to say we don't have security measures
+ like directory traversal in-place; yet.  but push
+
+$ git push -f rpi main~8:local-src/main
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: update f13578f37429fac8ba062a7faf0a1e98448cd140 refs/info/rpi-self
+To rpi-4b:~ethan/ics/uwisc/cs472/p2-site.git
+ + ba6349b...1e5fbe1 main~8 -> local-src/main (forced update)
+
+(i should have used --force-with-lease, but oh well...)
+
+(also i know i know it's reversed GEEZ =_=)
