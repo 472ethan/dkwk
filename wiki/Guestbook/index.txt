@@ -7,3 +7,7 @@ Welcome!  If you have visited, feel free to leave a note.
 this is _version 20250511_
 
 BTW config.py is working
+
+this is _version 20250512_
+
+Should you be *worried* about getting stuck behind a NAT?
