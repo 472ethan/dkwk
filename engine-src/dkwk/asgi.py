@@ -125,7 +125,16 @@ class Application:
                 raise fastapi.HTTPException(500, "server misconfigured: cannot determine client address")
             now  = datetime.datetime.utcnow()
             author = git.mkgitid(host, 'www@engine.cs472.endfind.me', now)
-            repo.commit(author, f"Edit {name}")
+            try:
+                ident = repo.default_signature
+                my_name = ident.name
+                my_mail = ident.email
+            except LookupError:
+                # KeyError: "config value 'user.name' was not found"
+                my_name = 'www'
+                my_mail = 'www@engine.cs472.endfind.me'
+            committer = git.mkgitid(my_name, my_mail, now)
+            repo.commit(author, f"Edit {name}", committer)
             background_tasks.add_task(push.push, WIKI_REPO, WIKI_BRANCH)
         except fastapi.HTTPException:
             raise
