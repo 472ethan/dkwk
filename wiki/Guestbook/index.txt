@@ -35,20 +35,40 @@ okay but Todo
     * bump version (autoreconf -i)
     * float currently broken on mobile; could be nice to use flex box
          - add some goddamn margin below <main>???, gosh this looks stupid
+         - factor out inline CSS; read bootstrap to see what classes
+           they have
+    >>> https://getbootstrap.com/docs/5.3/getting-started/introduction/ <<<
     * api health; upptime on the 472 account
+         - read: return { "text": "...", "time": "<something JavaScript can handle>" }
+         - ping: return the number "1".
+         - list: return neighbors (like ls -d .. ./*); replace with actual sidebar
+         - actually, combine read/post into page and route by method
+           (GET for reading, PATCH for editing, POST for creating
+              (creating is something we haven't implemented; we need
+               Jinja template for that, so leave that unimplemented.))
     * swagger docs look stupid; fix those
     * unsanitized interpolation in error route (check???
          - this is exactly how it broke for netifrc.
            we don't wanna fall into the same trap)
+         - minimize inline javascript in general (clean up claude hack)
     * sign our parser.js with SHA384 on build
+         - also like actually test it
     * tighter CORS
+         - allow ONLY
     * wire ACL
+         - ((i think we have this?  but check -- create a few more Guestbook pages))
+    * leave hard-coded 64 KiB configurable elsewhere
+         - alternatively, constrict with client_max_body_size
+           (the default is 1M, as i have alluded to in b8299fe)
     * OIDC; /authz (gh pages); /login /logout (engine)
          - identity by domain (how does tailscale do it??)
            or identity by localpart@domain
-         - ... do we need to be stateful
+         - ... do we need to be stateful or do we enumerate
+           a (finite) number of OIDC providers
     * privacy policy if that's worth adding (but there
       won't be any cookies on GitHub pages, so)
+    * JAIL(8)
+    * collapsible side bar?
 
 my iphone 6+ couldn't make it; could be nice to
 add a disclaimer that we run on very (intentionally)
@@ -59,3 +79,14 @@ oh and have i mentioned the readme is totally wrong
     https://github.com/CS272-S26/p11/blob/main/README.md
 
 FIX IT!!!1!!!!
+
+wiki for ourselves
+
+    Guestbook/       This wasteland
+    Manual/          User manual
+    Sitemap/         (ripping off of Dokuwiki namespace map)
+    Intern/          gory details
+    Intern/Backend/  engine-src (backend stuff)
+    Intern/Systems/  engine-etc (deployment systems)
+    Intern/Website/  public_html
+    Legalese/        disclaimers and such
