@@ -43,3 +43,7 @@ okay but Todo
     * OIDC; /authz (gh pages); /login /logout (engine)
     * privacy policy if that's worth adding (but there
       won't be any cookies on GitHub pages, so)
+
+my iphone 6+ couldn't make it; could be nice to
+add a disclaimer that we run on very (intentionally)
+bleeding-edge JS/HTML functionalities
