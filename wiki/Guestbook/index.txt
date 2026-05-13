@@ -44,9 +44,18 @@ okay but Todo
     * tighter CORS
     * wire ACL
     * OIDC; /authz (gh pages); /login /logout (engine)
+         - identity by domain (how does tailscale do it??)
+           or identity by localpart@domain
+         - ... do we need to be stateful
     * privacy policy if that's worth adding (but there
       won't be any cookies on GitHub pages, so)
 
 my iphone 6+ couldn't make it; could be nice to
 add a disclaimer that we run on very (intentionally)
 bleeding-edge JS/HTML functionalities
+
+oh and have i mentioned the readme is totally wrong
+
+    https://github.com/CS272-S26/p11/blob/main/README.md
+
+FIX IT!!!1!!!!
