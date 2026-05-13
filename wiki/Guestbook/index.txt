@@ -34,6 +34,7 @@ okay but Todo
 
     * bump version (autoreconf -i)
     * float currently broken on mobile; could be nice to use flex box
+         - add some goddamn margin below <main>???, gosh this looks stupid
     * api health; upptime on the 472 account
     * swagger docs look stupid; fix those
     * unsanitized interpolation in error route (check???)
