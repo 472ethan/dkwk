@@ -39,7 +39,7 @@ okay but Todo
     * swagger docs look stupid; fix those
     * unsanitized interpolation in error route (check???
          - this is exactly how it broke for netifrc.
-           we don't wanna fall into the same trap
+           we don't wanna fall into the same trap)
     * sign our parser.js with SHA384 on build
     * tighter CORS
     * wire ACL
