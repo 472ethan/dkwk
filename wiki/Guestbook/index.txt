@@ -17,5 +17,13 @@ Should you be *worried* about getting stuck behind a NAT?
 We are back! :D
 
 push test.....
-   [x2 with PATH in start_pre]
-   [x3 with PATH in `${name}_env'...]
+[x2 with PATH in start_pre]
+[x3 with PATH in `${name}_env'...]
+
+manual URL resolution worked!
+(thx claude!!!)
+
+Hi from my phone 📱
+
+(oh and we should totally include the UA so we know what OS everyone's using too...)
+
