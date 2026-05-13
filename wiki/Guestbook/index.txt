@@ -37,7 +37,9 @@ okay but Todo
          - add some goddamn margin below <main>???, gosh this looks stupid
     * api health; upptime on the 472 account
     * swagger docs look stupid; fix those
-    * unsanitized interpolation in error route (check???)
+    * unsanitized interpolation in error route (check???
+         - this is exactly how it broke for netifrc.
+           we don't wanna fall into the same trap
     * sign our parser.js with SHA384 on build
     * tighter CORS
     * wire ACL
