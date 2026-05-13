@@ -1,6 +1,11 @@
 = Guestbook/
 
 This is currently the only editable page.
+(Not in the sense that you can't change
+the `?f' parameter to other pages (wait...
+actually you can't.  The ACL forbids you.)
+but even if you could, you wouldn't see
+them dynamically show up anywhere here.)
 
 *Unicode* 你好 from A8 China.
 
