@@ -16,9 +16,13 @@ Should you be *worried* about getting stuck behind a NAT?
 
 We are back! :D
 
-push test.....
-[x2 with PATH in `start_pre']
-[x3 with PATH in `${name}_env'...]
+    push test.....
+    [x2 with PATH in `start_pre']
+    [x3 with PATH in `${name}_env'...]
+
+markup character (in this case underscore) within
+verbatim quotes is currently broken.  So indenting
+the above as a temp solution....
 
 manual URL resolution worked!
 (thx claude!!!)
