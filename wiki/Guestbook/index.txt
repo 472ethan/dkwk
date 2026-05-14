@@ -42,6 +42,8 @@ okay but Todo
          - add some goddamn margin below <main>???, gosh this looks stupid
          - factor out inline CSS; read bootstrap to see what classes
            they have
+         - dark-light please this blinds my eyes
+       *** curses frontend???
     >>> https://getbootstrap.com/docs/5.3/getting-started/introduction/ <<<
     * api health; upptime on the 472 account
          - read: return { "text": "...", "time": "<something JavaScript can handle>" }
