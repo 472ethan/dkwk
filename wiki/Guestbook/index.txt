@@ -103,32 +103,23 @@ wiki for ourselves
 Cloudflare/Google DNS tend to react faster to this; here's how they look like for reference's sake:
 
   
-  ; <<>> DiG 9.20.17 <<>> +do +mu engine.cs472.endfind.me.
+  ; <<>> DiG 9.20.17 <<>> +mu engine.cs472.endfind.me.
   ;; global options: +cmd
   ;; Got answer:
-  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 1449
-  ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 58529
+  ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
   
   ;; OPT PSEUDOSECTION:
-  ; EDNS: version: 0, flags: do; udp: 512
+  ; EDNS: version: 0, flags:; udp: 512
   ;; QUESTION SECTION:
   ;engine.cs472.endfind.me. IN A
   
   ;; ANSWER SECTION:
-  engine.cs472.endfind.me. 3562 IN CNAME cs400-vm.yizx.net.
-  engine.cs472.endfind.me. 3562 IN RRSIG CNAME 13 4 3600 (
-  				20260517013249 20260514233249 34505 endfind.me.
-  				RzDHRj7fNHif/REeZ7sF2sE8o0CS2jO//PNWhhbIU0/6
-  				9zS1erYi8h7gC1a0e1oaN1aNlSVtX05y44P5upShpw== )
-  cs400-vm.yizx.net.	3562 IN	A 35.209.101.10
-  cs400-vm.yizx.net.	3562 IN	RRSIG A 13 3 3600 (
-  				20260517013249 20260514233249 34505 yizx.net.
-  				nqG0rbeA3yWkbRlKeI7QPvRaSAOTBqYYFWvpVj8xNNti
-  				tiplWgy54NIz4UbKiptj9hWFDTYvgddyj70K/O5ibA== )
+  engine.cs472.endfind.me. 3302 IN CNAME cs400-vm.yizx.net.
+  cs400-vm.yizx.net.	3302 IN	A 35.209.101.10
   
-  ;; Query time: 116 msec
+  ;; Query time: 120 msec
   ;; SERVER: 8.8.8.8#53(8.8.8.8) (UDP)
-  ;; WHEN: Fri May 15 19:33:28 CDT 2026
-  ;; MSG SIZE  rcvd: 309
+  ;; WHEN: Fri May 15 19:47:24 CDT 2026
+  ;; MSG SIZE  rcvd: 99
   
- 
