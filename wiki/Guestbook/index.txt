@@ -97,3 +97,5 @@ wiki for ourselves
     Intern/Systems/  engine-etc (deployment systems)
     Intern/Website/  public_html
     Legalese/        disclaimers and such
+
+>>> UPDATE <<< if you tried to access the site within the past 48 hours or so of me not working on this, you may have noticed that engine.cs472.endfind.me was gone. this is because google cloud somehow changed my reserved IP and gave the one i had to another guy. anyways, i reserved a new IP with Standard instead of Premium whatever. hopefully google takes me seriously this time ~ethan
