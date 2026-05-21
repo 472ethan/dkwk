@@ -68,6 +68,12 @@ class Application:
         app.include_router(self.routes)
         return app
 
+    def api_ping(self):
+        """
+        GET /api/ping HTTP/1.1
+        """
+        return {"ok": True}
+
     def api_read(self, f: str):
         """
         GET /api/read?f=PATH HTTP/1.1
