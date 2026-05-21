@@ -43,6 +43,11 @@ class Application:
     def __init__(self):
         self.routes = fastapi.APIRouter()
         self.routes.add_api_route(
+            "/api/ping",
+            self.api_ping,
+            methods=["GET"],
+        )
+        self.routes.add_api_route(
             "/api/read",
             self.api_read,
             methods=["GET"],
