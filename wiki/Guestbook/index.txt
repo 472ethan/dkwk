@@ -75,6 +75,9 @@ okay but Todo
       won't be any cookies on GitHub pages, so)
     * JAIL(8)
     * collapsible side bar?
+         [ See for example: https://docs.ruby-lang.org/en/master/language/bsearch_rdoc.html
+           Or even fancier: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.binary_search
+         ]
 
 my iphone 6+ couldn't make it; could be nice to
 add a disclaimer that we run on very (intentionally)
