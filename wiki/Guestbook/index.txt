@@ -54,8 +54,8 @@ okay but Todo
                Jinja template for that, so leave that unimplemented.))
     * swagger docs look stupid; fix those
     * unsanitized interpolation in error route (check???
-         - this is exactly how it broke for netifrc.
-           we don't wanna fall into the same trap)
+      -X-X- this is exactly how it broke for netifrc.
+            we don't wanna fall into the same trap)  # DONE by Claude -X-X-
          - minimize inline javascript in general (clean up claude hack)
     * sign our parser.js with SHA384 on build
          - also like actually test it
@@ -99,3 +99,5 @@ wiki for ourselves
     Intern/Systems/  engine-etc (deployment systems)
     Intern/Website/  public_html
     Legalese/        disclaimers and such
+
+why does this look dark now D:
