@@ -1,4 +1,4 @@
-; <<>> DiG 9.20.20 <<>> endfind.me ; 2026-05-21 13:05:26 -0500
+; <<>> DiG 9.20.20 <<>> endfind.me ; 2026-05-21 22:23:41 -0500
 ;
 ; This BIND zone file is scoped to the "cs472.endfind.me."
 ; subdomain.  Everything else is provided merely for
@@ -16,10 +16,10 @@ $TTL 3600
 $ORIGIN endfind.me.
 
 @      IN   SOA   ns1.rapidcow.net. ethan.rapidcow.org. (
-                          1779386726 ; serial number
+                          1779420221 ; serial number
                           12h        ; refresh
                           15m        ; update retry
-                          4d         ; expiry
+                          4w         ; expiry
                           2h         ; minimum
                           )
        IN   NS    ns1.rapidcow.net.
