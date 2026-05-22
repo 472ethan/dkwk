@@ -19,13 +19,12 @@ body {
 }
 
 nav {
-  float: left;
-  width: 20%;
+  flex: 0 0 20%;
 }
 
 main {
-  float: right;
-  width: 80%;
+  flex: 1;
+  min-width: 0;
   margin-bottom: 2rem;
 }
 
