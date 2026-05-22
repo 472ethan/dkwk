@@ -37,7 +37,6 @@ The food is good
 
 okay but Todo
 
-    * bump version (autoreconf -i)
     * float currently broken on mobile; could be nice to use flex box
          - add some goddamn margin below <main>???, gosh this looks stupid
          - factor out inline CSS; read bootstrap to see what classes
