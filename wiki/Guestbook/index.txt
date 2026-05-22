@@ -37,7 +37,6 @@ The food is good
 
 okay but Todo
 
-    * bump version (autoreconf -i)
     * float currently broken on mobile; could be nice to use flex box
          - add some goddamn margin below <main>???, gosh this looks stupid
          - factor out inline CSS; read bootstrap to see what classes
@@ -45,9 +44,9 @@ okay but Todo
          - dark-light please this blinds my eyes
        *** curses frontend???
     >>> https://getbootstrap.com/docs/5.3/getting-started/introduction/ <<<
-    * api health; upptime on the 472 account
+    * api health; upptime on the 472 account [DONE https://status.cs472.endfind.me/]
          - read: return { "text": "...", "time": "<something JavaScript can handle>" }
-         - ping: return the number "1".
+     -X-X- ping: return { "ok": true }   # DONE -X-X-
          - list: return neighbors (like ls -d .. ./*); replace with actual sidebar
          - actually, combine read/post into page and route by method
            (GET for reading, PATCH for editing, POST for creating
@@ -76,6 +75,9 @@ okay but Todo
       won't be any cookies on GitHub pages, so)
     * JAIL(8)
     * collapsible side bar?
+         [ See for example: https://docs.ruby-lang.org/en/master/language/bsearch_rdoc.html
+           Or even fancier: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.binary_search
+         ]
 
 my iphone 6+ couldn't make it; could be nice to
 add a disclaimer that we run on very (intentionally)
@@ -97,29 +99,3 @@ wiki for ourselves
     Intern/Systems/  engine-etc (deployment systems)
     Intern/Website/  public_html
     Legalese/        disclaimers and such
-
->>> UPDATE <<< if you tried to access the site within the past 48 hours or so of me not working on this, you may have noticed that engine.cs472.endfind.me was gone. this is because google cloud somehow changed my reserved IP and gave the one i had to another guy. anyways, i reserved a new IP with Standard instead of Premium whatever. hopefully google takes me seriously this time ~ethan
-
-Cloudflare/Google DNS tend to react faster to this; here's how they look like for reference's sake:
-
-  
-  ; <<>> DiG 9.20.17 <<>> +mu engine.cs472.endfind.me.
-  ;; global options: +cmd
-  ;; Got answer:
-  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 58529
-  ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-  
-  ;; OPT PSEUDOSECTION:
-  ; EDNS: version: 0, flags:; udp: 512
-  ;; QUESTION SECTION:
-  ;engine.cs472.endfind.me. IN A
-  
-  ;; ANSWER SECTION:
-  engine.cs472.endfind.me. 3302 IN CNAME cs400-vm.yizx.net.
-  cs400-vm.yizx.net.	3302 IN	A 35.209.101.10
-  
-  ;; Query time: 120 msec
-  ;; SERVER: 8.8.8.8#53(8.8.8.8) (UDP)
-  ;; WHEN: Fri May 15 19:47:24 CDT 2026
-  ;; MSG SIZE  rcvd: 99
-  

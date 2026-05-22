@@ -37,7 +37,7 @@ class PageEdit(BaseModel):
 
 class Application:
     title = "DK-Wiki backend"
-    description = "Default implementation"
+    description = "REST API for DK-Wiki — read and edit wiki pages stored in a Git repository."
     version = __version__
 
     def __init__(self):
@@ -76,12 +76,16 @@ class Application:
     def api_ping(self):
         """
         GET /api/ping HTTP/1.1
+
+        Health check — returns `{"ok": true}`.
         """
         return {"ok": True}
 
     def api_read(self, f: str):
         """
         GET /api/read?f=PATH HTTP/1.1
+
+        Return the raw wikitext of page `f` (e.g. `Guestbook/index`).
         """
         try:
             name = can.check_path(f)
@@ -106,10 +110,12 @@ class Application:
     def api_post(self, f: str, body: PageEdit, request: fastapi.Request,
                  background_tasks: fastapi.BackgroundTasks):
         """
-        GET /api/post?f=PATH HTTP/1.1
+        POST /api/post?f=PATH HTTP/1.1
         Content-Type: application/json
 
         {"text": ...}
+
+        Commit a new revision of page `f` with the given wikitext body.
         """
         try:
             name = can.check_path(f)

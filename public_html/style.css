@@ -13,8 +13,59 @@
 }
 
 body {
+  margin: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+nav {
+  float: left;
+  width: 20%;
+}
+
+main {
+  float: right;
+  width: 80%;
+  margin-bottom: 2rem;
+}
+
+/* Guestbook editor */
+#draft-bar {
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: #fff3cd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+#view-actions {
+  margin-top: 1rem;
+}
+
+#editor {
+  width: 100%;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#edit-controls {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#btn-discard {
+  margin-left: 0.5rem;
+}
+
+#edit-status {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: gray;
 }
 
 /*
