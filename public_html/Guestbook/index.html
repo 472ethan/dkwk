@@ -5,11 +5,11 @@
   <title>Guestbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH">
-  <link href="style.css?v=WyEUTr8VOFpUx3MjZ5BYFqWSL08" rel="stylesheet" crossorigin="anonymous"
-        integrity="sha384-W6jx+QCTwaxex8URF7qrkb5v7YtEIFRihwfplUYnhWUHPGSnWlSzFHY59JG7/vfs">
+  <link href="style.css?v=xB1sYiYb/MzQGdHy4en0YOmkkX0" rel="stylesheet" crossorigin="anonymous"
+        integrity="sha384-o98g0qcRzisdoZaW+EHWwrQcsd9UKTiwVMapsHA7hCk+UWvI67+z/S4063FDfcrA">
 </head>
-<body style="margin:1rem">
-  <nav style="float:left; width:20%">
+<body>
+  <nav>
     <ul>
       <li><a href="..">.</a></li>
       <li><a href="../Manual/Markup.html">Manual/Markup</a></li>
@@ -18,35 +18,31 @@
     </ul>
   </nav>
 
-  <main style="float:right; width:80%">
+  <main>
 
     <!-- View pane -->
     <div id="view-section">
       <div id="wiki-content">
-        <p style="color:gray">Loading&hellip;</p>
+        <p class="text-secondary">Loading&hellip;</p>
       </div>
-      <div style="margin-top:1rem">
+      <div id="view-actions">
         <button id="btn-edit" class="btn btn-sm btn-outline-secondary">Edit</button>
       </div>
     </div>
 
     <!-- Editor pane (hidden until Edit is clicked) -->
     <div id="edit-section" hidden>
-      <div id="draft-bar" hidden
-           style="margin-bottom:0.5rem; padding:0.4rem 0.6rem;
-                  background:#fff3cd; border-radius:4px; font-size:0.9rem">
+      <div id="draft-bar" hidden>
         Unsaved draft found.
-        <button id="btn-discard" class="btn btn-sm btn-warning" style="margin-left:0.5rem">Discard draft</button>
+        <button id="btn-discard" class="btn btn-sm btn-warning">Discard draft</button>
       </div>
-      <textarea id="editor" rows="20"
-                style="width:100%; font-family:monospace; font-size:0.9rem;
-                       padding:0.4rem; border:1px solid #ccc; border-radius:4px"></textarea>
-      <div style="margin-top:0.5rem; display:flex; gap:0.5rem; flex-wrap:wrap">
+      <textarea id="editor" rows="20"></textarea>
+      <div id="edit-controls">
         <button id="btn-save-draft" class="btn btn-sm btn-outline-primary">Save draft</button>
         <button id="btn-publish"    class="btn btn-sm btn-primary">Publish</button>
         <button id="btn-cancel"     class="btn btn-sm btn-outline-secondary">Cancel</button>
       </div>
-      <div id="edit-status" style="margin-top:0.5rem; font-size:0.9rem; color:gray"></div>
+      <div id="edit-status"></div>
     </div>
 
   </main>
@@ -83,7 +79,10 @@
         currentText = await resp.text();
         wikiContent.innerHTML = parse(currentText);
       } catch (err) {
-        wikiContent.innerHTML = `<p style="color:red">Error loading page: ${err.message}</p>`;
+        const errNode = document.createElement('p');
+        errNode.className = 'text-danger';
+        errNode.textContent = `Error loading page: ${err.message}`;
+        wikiContent.replaceChildren(errNode);
       }
     }
 
