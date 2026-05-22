@@ -37,30 +37,40 @@ The food is good
 
 okay but Todo
 
-    * float currently broken on mobile; could be nice to use flex box
-         - add some goddamn margin below <main>???, gosh this looks stupid
-         - factor out inline CSS; read bootstrap to see what classes
-           they have
+    * float currently broken on mobile; could be nice to use flex box [FIXED BY CLAUDE
+         BUT WE DO WANT A BIT OF *MARGIN* between the sidebar and.... (see the links
+      at the bottom, i really think the docs do a way better job at sidebars)]
+         - less drop-in CSS in styles.css; really prefer bootstrap please...
          - dark-light please this blinds my eyes
        *** curses frontend???
     >>> https://getbootstrap.com/docs/5.3/getting-started/introduction/ <<<
     * api health; upptime on the 472 account [DONE https://status.cs472.endfind.me/]
          - read: return { "text": "...", "time": "<something JavaScript can handle>" }
-     -X-X- ping: return { "ok": true }   # DONE -X-X-
          - list: return neighbors (like ls -d .. ./*); replace with actual sidebar
          - actually, combine read/post into page and route by method
            (GET for reading, PATCH for editing, POST for creating
               (creating is something we haven't implemented; we need
                Jinja template for that, so leave that unimplemented.))
-    * swagger docs look stupid; fix those
-    * unsanitized interpolation in error route (check???
-      -X-X- this is exactly how it broke for netifrc.
-            we don't wanna fall into the same trap)  # DONE by Claude -X-X-
-         - minimize inline javascript in general (clean up claude hack)
+    * swagger docs look stupid; fix those [STILL not fixed!]
+    * minimize inline javascript (since this will get duped
+         a lot as a Jinja template; we want to carry just
+         layout information and minimize logic.)
     * sign our parser.js with SHA384 on build
-         - also like actually test it
+         - also like actually test it (there is TAP, but that's written
+           by Claude; and they certainly don't catch the case where there
+           are asterisks within INLINE verbatim blocks like `(char *)'
+           and `*ptr` can't go together. (also check the DOM directly
+           instead of a stringification, for all i know HTML 5 still
+           (technically) lets you spell tags like <br> as void HTML elements
+           or self-closing XML tags)
     * tighter CORS
-         - allow ONLY
+         - allow ONLY (... what about people running in localhost?
+              (systemize bootstrap on fresh systems; pointing to our
+               backend literally makes no sense.  The user will be
+               responsible for installing FastAPI, of course, but that
+               will be none of my concern.... :P) (GNU autoconf might
+               not be the right tool for this; just include a simple
+               top-level Python script should be fine...))
     * wire ACL
          - ((i think we have this?  but check -- create a few more Guestbook pages))
     * leave hard-coded 64 KiB configurable elsewhere
@@ -77,6 +87,7 @@ okay but Todo
     * collapsible side bar?
          [ See for example: https://docs.ruby-lang.org/en/master/language/bsearch_rdoc.html
            Or even fancier: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.binary_search
+           Also sphinx: <https://docs.python.org/3/library/bisect.html>
          ]
 
 my iphone 6+ couldn't make it; could be nice to
