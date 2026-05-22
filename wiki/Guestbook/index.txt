@@ -13,6 +13,9 @@ These are broken examples of the current lexer btw:
     [x2 with PATH in `start_pre']
     [x3 with PATH in `${name}_env'...]
 
+I don't know what claude did; but whatever it was,
+we need an actual lexer.
+
 Todo
 
     * float currently broken on mobile; could be nice to use flex box [FIXED BY CLAUDE
